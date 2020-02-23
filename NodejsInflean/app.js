@@ -1,6 +1,9 @@
 var express=require('express');
 var bodyParser=require('body-parser');
 var app=express();
+var router=require('./router/index');
+
+
 
 app.listen(3000, function () {
     console.log('start, express server')
@@ -12,13 +15,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', __dirname + '/views')
 app.set('view engine', 'ejs')
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/public/main.html')
-})
+app.use(router);
 
-app.get('/main', function (req, res) {
-    res.sendFile(__dirname + '/public/main.html')
-})
+
+
 
 app.get('/form.html', function (req, res) {
     res.sendFile(__dirname + '/public/form.html')

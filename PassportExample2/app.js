@@ -41,11 +41,7 @@ var database = require('./database/database');
 // 모듈로 분리한 라우팅 파일 불러오기
 var route_loader = require('./routes/route_loader');
 
-// sochet.io 모듈 불러들이기
-var socketio = require('socket.io');
-
-// cors 사용 - 클라이언트에서 ajax로 요청하면 CORS 지원
-var cors = require('cors');
+ 
 
 
 // 익스프레스 객체 생성
@@ -74,9 +70,6 @@ app.use('/public', static(path.join(__dirname, 'public')));
  
 // cookie-parser 설정
 app.use(cookieParser());
-
-// cors를 미들웨어로 사용하도록 등록
-app.use(cors());
 
 // 세션 설정
 app.use(expressSession({
@@ -151,17 +144,4 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 	// 데이터베이스 초기화
 	database.init(app, config);
    
-});
-
-// socket.io 서버를 시작합니다
-var io = socketio.listen(server);
-console.log('socket.io 요청을 받아들일 준비가 되었습니다.');
-
-// 클라이언트가 연결했을 때의 이벤트 처리
-io.sockets.on('connection', function (socket) {
-	console.log('connection info : ', socket.request.connection._peername);
-
-	// 소켓 객체에 클라이언트 Host, Port 정보 속성으로 추가
-	socket.remoteAddress = socket.request.connection._peername.address;
-	socket.remotePort = socket.request.connection._peername.port;
 });
