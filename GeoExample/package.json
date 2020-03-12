@@ -1,5 +1,5 @@
 {
-  "name": "PassportExample2",
+  "name": "geoexample",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -21,5 +21,9 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "serve-static": "^1.11.2"
-  }
+  },
+  "description": "Created with [Nodeclipse](https://github.com/Nodeclipse/nodeclipse-1)\r  ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))",
+  "main": "app.js",
+  "author": "",
+  "license": "ISC"
 }
