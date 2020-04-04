@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>가까운 커피숍 찾기</title>
+</head>
+<body>
+    <h1>가까운 커피숍 찾기</h1>
+    <br>
+    <h3>http://mygeoposition.com/에서 좌표를 확인하여 추가합니다.</h3>
+    <br>
+    <p>삼성역 3번 출구 버스 정류장</p>
+    <br>
+    <form action="/process/nearcoffeeshop" method="post">
+        <table>
+            <tr>
+                <td>
+                    <label for="">경도</label>
+                </td>
+                <td><input type="text" name="longitude" value="127.0632954"></td>
+            </tr>
+            <tr>
+                <td><label for="">위도</label></td>
+                <td><input type="text" name="latitude" value="37.5079523"></td>
+            </tr>
+        </table>
+        <input type="submit" value="전송" name="">
+    </form>
+</body>
+</html>

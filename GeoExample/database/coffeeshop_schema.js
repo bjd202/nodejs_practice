@@ -22,6 +22,42 @@ Schema.createSchema = function (mongoose) {
         return this.find({}, callback);
     })
 
+    CoffeeShopSchema.static('findNear', function (longitude, latitude, maxDistance, callback) {
+        console.log('CoffeeShopSchema의 findNear 호출됨.');
+        
+        this.find().where('geometry').near(
+            {center : {type : 'Point',
+                coordinates : [parseFloat(longitude), parseFloat(latitude)]
+            },
+                maxDistance : maxDistance
+            }).limit(1).exec(callback);
+    });
+
+    // 일정 범위 안의 커피숍 조회
+    CoffeeShopSchema.static('findWithin', function (topleft_longitude, topleft_latitude, bottomright_longitude, bottomright_latitude, callback) {
+        console.log('CoffeeShopSchema의 findWithin 호출됨.');
+
+        this.find().where('geometry').within(
+            {box : [
+                [parseFloat(topleft_longitude), parseFloat(topleft_latitude)],
+                [parseFloat(bottomright_longitude), parseFloat(bottomright_latitude)]
+            ]
+            }).exec(callback);
+    });
+
+    // 일정 반경 안의 커피숍 조회
+    CoffeeShopSchema.static('findCircle', function (center_longitude, center_latitude, radius, callback) {
+        console.log('CoffeeShopSchema의 findCircle 호출됨.');
+
+        // change radian : 1/6371 -> 1km
+        this.find().where('geometry').within(
+            {center : [parseFloat(center_longitude), parseFloat(center_latitude)],
+                radius : parseFloat(radius/6371000),
+                unique : true, spherical : true
+            }
+        ).exec(callback);
+    });
+
     return CoffeeShopSchema;
 }
 
