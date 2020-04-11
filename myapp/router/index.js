@@ -22,14 +22,27 @@ router.post('/logincheck', function (req, res) {
 
     console.log('param data : ' + username + ', ' + password);
 
+    if(username == "" || password == ""){
+        res.json({result : 0});
+        return;
+    }
+
     UserSchema.findOne({username : username}).exec(function (err, result) {
         if(err){
             console.error(err.stack);
         }
 
         if(result){
-            console.dir(result);
-            res.json({result : 1});
+            console.dir(result._doc);
+
+            if(password == result._doc.password){
+                res.json({result : 1});
+                return;
+            }else{
+                res.json({result : 0});
+                return;
+            }
+            
         }else{
             console.log('db 결과 없음');
             res.json({result : 0});

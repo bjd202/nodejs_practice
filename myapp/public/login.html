@@ -160,6 +160,8 @@
             console.dir(result);
             if(result.result == 1){
               location.href = '/';
+            }else{
+              alert('입력정보를 확인해주세요.');
             }
           },
           error: function (xhr, status, error) {
