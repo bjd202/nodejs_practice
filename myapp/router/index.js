@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
+var crypto = require('crypto');
 
 var UserSchema = require('../schemas/UserSchema');
 
@@ -30,12 +31,18 @@ router.post('/logincheck', function (req, res) {
     UserSchema.findOne({username : username}).exec(function (err, result) {
         if(err){
             console.error(err.stack);
+            return;
         }
 
         if(result){
             console.dir(result._doc);
 
-            if(password == result._doc.password){
+            var dbPassword = result._doc.password;
+            var inputPassword = password;
+            var salt = result._doc.salt;
+            var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
+
+            if(dbPassword == hashPassword){
                 res.json({result : 1});
                 return;
             }else{
@@ -48,22 +55,54 @@ router.post('/logincheck', function (req, res) {
             res.json({result : 0});
         }
     })
+})
 
-    // var user = new UserSchema();
+router.get('/register', function (req, res) {
+    console.log('register.html 호출');
+    res.sendFile(path.join(__dirname, '../public/', 'register.html'));
+})
 
-    // user.username = username;
-    // user.password = password;
+router.post('/register', function (req, res) {
+    console.log('post register 호출');
+    var username = req.body.username || req.query.username;
+    var inputPassword = req.body.password || req.query.password;
+    var email = req.body.email || req.query.email;
 
-    // user.save(function(err){
-    //     if(err){
-    //         console.error(err);
-    //         res.json({result: 0});
-    //         return;
-    //     }
+    UserSchema.findOne({username : username}).exec(function (err, result) {
+        if(err){
+            console.error(err.stack);
+            return;
+        }
 
-    //     res.json({result: 1});
-
-    // });
+        if(result){
+            // 이미 가입된 사용자
+            if(result._doc.username == username){
+                res.json({result : 0});
+            // 새로운 사용자
+            }else{
+                var salt = Math.round((new Date().valueOf() * Math.random())) + "";
+                var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
+            
+                var user = new UserSchema();
+            
+                user.username = username;
+                console.log(user.username);
+                user.password = hashPassword;
+                user.email = email
+                user.salt = salt
+            
+                user.save(function(err){
+                    if(err){
+                        console.error(err);
+                        res.json({result: 0});
+                        return;
+                    }
+                });
+            
+                res.json({result : 1});
+            }
+        }
+    })
 })
 
 module.exports = router;
