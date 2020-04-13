@@ -3,11 +3,20 @@ var path = require('path');
 var router = express.Router();
 var crypto = require('crypto');
 
+
 var UserSchema = require('../schemas/UserSchema');
 
 router.get('/', function(req, res) {
-    console.log('index.html 호출');
-    res.sendFile(path.join(__dirname, '../public/', 'index.html'));
+    console.log('main.html 호출');
+
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    res.sendFile(path.join(__dirname, '../public/', 'main.html'));
 });
 
 router.get('/login', function(req, res) {
@@ -43,9 +52,11 @@ router.post('/logincheck', function (req, res) {
             var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
 
             if(dbPassword == hashPassword){
+                req.session.username = username;
                 res.json({result : 1});
                 return;
             }else{
+                req.session.username = null;
                 res.json({result : 0});
                 return;
             }
