@@ -23,7 +23,11 @@ app.use(session({
 	saveUninitialized:true
 }))
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 var index = require('./router/index');
+var board = require('./router/board');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -32,6 +36,16 @@ app.use(express.urlencoded({extended : false}));
 
 // 라우터
 app.use(index);
+app.use('/board', function (req, res, next) {
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    next();
+}, board);
 
 var server = http.createServer(app).listen(process.env.PORT || port, function(){
     console.log('서버가 시작되었습니다. 포트 : ' + port);

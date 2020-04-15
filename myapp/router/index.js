@@ -7,7 +7,7 @@ var crypto = require('crypto');
 var UserSchema = require('../schemas/UserSchema');
 
 router.get('/', function(req, res) {
-    console.log('main.html 호출');
+    console.log('main 호출');
 
     console.log('session username = ' + req.session.username);
 
@@ -16,11 +16,12 @@ router.get('/', function(req, res) {
         return;
     }
 
-    res.sendFile(path.join(__dirname, '../public/', 'main.html'));
+    //res.sendFile(path.join(__dirname, '../public/', 'main.html'));
+    res.render('main')
 });
 
 router.get('/login', function(req, res) {
-    console.log('login.html 호출');
+    console.log('login 호출');
     res.sendFile(path.join(__dirname, '../public/', 'login.html'));
 });
 
@@ -69,7 +70,7 @@ router.post('/logincheck', function (req, res) {
 })
 
 router.get('/register', function (req, res) {
-    console.log('register.html 호출');
+    console.log('register 호출');
     res.sendFile(path.join(__dirname, '../public/', 'register.html'));
 })
 
@@ -114,6 +115,12 @@ router.post('/register', function (req, res) {
             }
         }
     })
+})
+
+router.get('/logout', function (req, res) {
+    req.session.username = undefined;
+
+    res.redirect('/login');
 })
 
 module.exports = router;
