@@ -9,4 +9,14 @@ router.get('/list', function (req, res) {
     res.render('board')
 })
 
+router.get('/create', function (req, res) {
+    console.log('get board create 호출');
+
+    res.render('board_create');
+})
+
+router.post('/create', function (req, res) {
+    console.log('post board create 호출');
+})
+
 module.exports = router;
