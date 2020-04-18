@@ -45,55 +45,21 @@
                   <table class="table">
                   <thead>
                       <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
-                      <th scope="col">Heading</th>
+                        <th>#</th>
+                        <th scope="col">순서</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">조회수</th>
                       </tr>
                   </thead>
                   <tbody>
+                    <% for(var i=0; i<board.length; i++){ %>
                       <tr>
-                      <th scope="row">1</th>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
+                        <td><input type="checkbox" class="checkbox" id="<%=board[i]._id%>"></td>
+                        <td scope="row"><%=i+1%></td>
+                        <td class="board_row" data-href="/board/detail/<%=board[i]._id%>"><%=board[i].title%></td>
+                        <td>0</td>
                       </tr>
-                      <tr>
-                      <th scope="row">2</th>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      </tr>
-                      <tr>
-                      <th scope="row">3</th>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      <td>Cell</td>
-                      </tr>
+                    <% } %>
                   </tbody>
                   </table>
               </div>
@@ -167,5 +133,16 @@
 
   <%- include('common_script') -%>
   
+  <script>
+    $(document).ready(function () {
+      $(".board_row").on('click', function () {
+        window.location = $(this).data("href");
+      })
+
+      $(".board_row").hover(function () {
+        $(this).css('cursor', 'pointer');
+      })
+    })
+  </script>
 </body>
 </html>
