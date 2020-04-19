@@ -39,13 +39,15 @@ router.post('/create', function (req, res) {
 
     var title = req.body.title || req.query.title;
     var content = req.body.content || req.query.content;
+    var author = req.session.username;
 
-    console.log('params : ' + title + ', ' + content);
+    console.log('params : ' + title + ', ' + content + ', ' + author);
 
     var board = new BoardSchema();
 
     board.title = title;
     board.content = content;
+    board.author = author;
 
     board.save(function (err) {
         if(err){
@@ -70,10 +72,59 @@ router.get('/detail/:id', function (req, res) {
             return;
         }
 
+        result.view++;
+        result.save();
+
         if(result){
             res.render('board_detail', {board : result})
         }else{
             console.log('데이터 없음');
+        }
+    })
+})
+
+router.get('/update/:id', function (req, res) {
+    console.log('get board update 호출');
+
+    var id = req.params.id;
+    var author = req.session.username;
+    console.log('params : ' + id + ', ' + author);
+
+    BoardSchema.findOne({_id : id, author : author}, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            res.render('board_update', {board : result});
+        }else{
+            console.log('데이터 없음');
+            res.status(500).json('권한 없음');
+        }
+    })
+})
+
+router.post('/update/:id', function (req, res) {
+    console.log('post board update 호출');
+
+    var id = req.params.id;
+    var author = req.session.username;
+    var title = req.body.title || req.query.title;
+    var content = req.body.content || req.query.content;
+    console.log('params : ' + id + ', ' + title + ', ' + content);
+
+    BoardSchema.update({_id : id, author : author}, {$set : {title : title, content : content}}, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            res.json({result : 1});
+        }else{
+            console.log('update 실패');
+            res.json({result : 0});
         }
     })
 })

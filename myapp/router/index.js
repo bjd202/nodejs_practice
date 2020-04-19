@@ -80,39 +80,40 @@ router.post('/register', function (req, res) {
     var inputPassword = req.body.password || req.query.password;
     var email = req.body.email || req.query.email;
 
+    console.log(req.body);
+
     UserSchema.findOne({username : username}).exec(function (err, result) {
         if(err){
-            console.error(err.stack);
+            console.error(err);
             return;
         }
 
         if(result){
             // 이미 가입된 사용자
-            if(result._doc.username == username){
-                res.json({result : 0});
+            console.dir(result);
+            res.json({result : 0});                
+        }else{
             // 새로운 사용자
-            }else{
-                var salt = Math.round((new Date().valueOf() * Math.random())) + "";
-                var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
-            
-                var user = new UserSchema();
-            
-                user.username = username;
-                console.log(user.username);
-                user.password = hashPassword;
-                user.email = email
-                user.salt = salt
-            
-                user.save(function(err){
-                    if(err){
-                        console.error(err);
-                        res.json({result: 0});
-                        return;
-                    }
-                });
-            
-                res.json({result : 1});
-            }
+            var salt = Math.round((new Date().valueOf() * Math.random())) + "";
+            var hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
+        
+            var user = new UserSchema();
+        
+            user.username = username;
+            console.log(user.username);
+            user.password = hashPassword;
+            user.email = email
+            user.salt = salt
+        
+            user.save(function(err){
+                if(err){
+                    console.error(err);
+                    res.json({result: 0});
+                    return;
+                }
+            });
+        
+            res.json({result : 1});
         }
     })
 })

@@ -48,18 +48,24 @@
                         <th>#</th>
                         <th scope="col">순서</th>
                         <th scope="col">제목</th>
+                        <th scope="col">작성자</th>
                         <th scope="col">조회수</th>
                       </tr>
                   </thead>
                   <tbody>
+                    <% if(board.length == 0){ %>
+                    <%  %>
+                    <% }else{ %>
                     <% for(var i=0; i<board.length; i++){ %>
                       <tr>
                         <td><input type="checkbox" class="checkbox" id="<%=board[i]._id%>"></td>
                         <td scope="row"><%=i+1%></td>
                         <td class="board_row" data-href="/board/detail/<%=board[i]._id%>"><%=board[i].title%></td>
-                        <td>0</td>
+                        <td><%=board[i].author%></td>
+                        <td><%=board[i].view%></td>
                       </tr>
                     <% } %>
+                    <% }%>
                   </tbody>
                   </table>
               </div>
