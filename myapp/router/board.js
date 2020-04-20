@@ -4,24 +4,46 @@ var router = express.Router();
 
 var BoardSchema = require('../schemas/BoardSchema');
 
-router.get('/list', function (req, res) {
+router.get('/list/:page', function (req, res) {
     console.log('board list 호출');
+
+    var page = req.params.page;
+
+    var options = {
+        page : page,
+        limit : 10,
+        sort : {create_at : -1}
+    }
     
-    //res.sendFile(path.join(__dirname, '../public', 'board.html'));
-    BoardSchema.find(function (err, board) {
+    // BoardSchema.find(function (err, board) {
+    //     if(err){
+    //         console.error(err);
+    //         res.json({result : 0});
+    //         return;
+    //     }
+
+    //     if(board){
+    //         console.dir(board);
+    //         //res.json({result : 1, board : board._doc});
+    //         res.render('board', {result : 1, board : board});
+    //     }else{
+    //         console.log('데이터 없음');
+    //         res.render('board', {result : 0});
+    //     }
+    // })
+
+    var aggregate = BoardSchema.aggregate();
+    BoardSchema.aggregatePaginate(aggregate, options, function (err, results) {
         if(err){
             console.error(err);
-            res.json({result : 0});
             return;
         }
 
-        if(board){
-            console.dir(board);
-            //res.json({result : 1, board : board._doc});
-            res.render('board', {result : 1, board : board});
+        if(results){
+            console.log(results);
+            res.render('board', {board : results});
         }else{
             console.log('데이터 없음');
-            res.render('board', {result : 0});
         }
     })
 
@@ -126,6 +148,31 @@ router.post('/update/:id', function (req, res) {
             console.log('update 실패');
             res.json({result : 0});
         }
+    })
+})
+
+router.post('/delete/:id', function (req, res) {
+    console.log('post board delete');
+
+    var id = req.params.id;
+    var author = req.session.username;
+
+    BoardSchema.deleteOne({_id : id, author : author}, function (err, result) {
+        if(err){
+            console.error(err);
+            res.json({result : 0});
+            return;
+        }
+
+        if(result.deletedCount > 0){
+            console.dir(result);
+            res.json({result : 1});
+        }else{
+            console.log('데이터 없음');
+            res.json({result : 0});
+        }
+        
+        
     })
 })
 

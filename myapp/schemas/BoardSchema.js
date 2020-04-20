@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 var Schema = new mongoose.Schema({
     title : {type : String},
@@ -8,5 +9,7 @@ var Schema = new mongoose.Schema({
     create_at : {type : Date, default : Date.now},
     update_at : {type : Date, default : Date.now}
 });
+
+Schema.plugin(aggregatePaginate);
 
 module.exports = mongoose.model('myapp_board', Schema);

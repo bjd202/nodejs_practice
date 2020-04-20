@@ -121,7 +121,7 @@
   <script>
     $(document).ready(function () {
       $("#list").on('click', function () {
-        window.location = '/board/list';
+        window.location = '/board/list/1';
       })
 
       $('#update').on('click', function () {
@@ -129,7 +129,23 @@
       })
 
       $('#delete').on('click', function () {
-        
+        $.ajax({ 
+          url: "/board/delete/" + '<%=board._id%>',
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {
+            console.dir(result);
+            if(result.result == 1){
+              alert('게시물 삭제 성공');
+              location.href = '/board/list/1';
+            }else{
+              alert('게시물 작성 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
       })
 
       $("#create").on('click', function () {
@@ -140,10 +156,10 @@
           data: data,
           method: 'post',
           dataType: 'json',
-          success: function (result) {
+          success: function (result) {s
             console.dir(result);
             if(result.result == 1){
-              location.href = '/board/list/' + '<%=board.title%>';
+              location.href = '/board/list/1';
             }else{
               alert('게시물 작성 실패');
             }

@@ -8,7 +8,6 @@
   <meta name="author" content=""/>
   <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
   <%- include('common_css') -%>
-  
 </head>
 
 <body class="bg-theme bg-theme1">
@@ -45,7 +44,6 @@
                   <table class="table">
                   <thead>
                       <tr>
-                        <th>#</th>
                         <th scope="col">순서</th>
                         <th scope="col">제목</th>
                         <th scope="col">작성자</th>
@@ -53,25 +51,49 @@
                       </tr>
                   </thead>
                   <tbody>
-                    <% if(board.length == 0){ %>
-                    <%  %>
-                    <% }else{ %>
-                    <% for(var i=0; i<board.length; i++){ %>
+                    <% for(var i=0; i<board.docs.length; i++){ %>
                       <tr>
-                        <td><input type="checkbox" class="checkbox" id="<%=board[i]._id%>"></td>
                         <td scope="row"><%=i+1%></td>
-                        <td class="board_row" data-href="/board/detail/<%=board[i]._id%>"><%=board[i].title%></td>
-                        <td><%=board[i].author%></td>
-                        <td><%=board[i].view%></td>
+                        <td class="board_row" data-href="/board/detail/<%=board.docs[i]._id%>"><%=board.docs[i].title%></td>
+                        <td><%=board.docs[i].author%></td>
+                        <td><%=board.docs[i].view%></td>
                       </tr>
                     <% } %>
-                    <% }%>
                   </tbody>
                   </table>
               </div>
                 </div>
             </div>
         </div>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <% if(board.page == 1) { %>
+              <li class="page-item disabled"><a class="page-link">First</a></li>
+            <% } else { %>
+              <li class="page-item"><a class="page-link" href="/board/list/1">First</a></li>
+            <% } %>
+            <% var i = board.page > 5 ? board.page - 4 : 1 %>
+            <% if(i != 1) { %>
+              <li class="disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= board.page + 4 && i <= board.totalPages; i++) { %>
+              <% if (i == board.page) { %>
+                  <li class="page-item active"><a class="page-link"><%= i %></a></li>
+              <% } else { %>
+                  <li class="page-item"><a class="page-link" href="/board/list/<%= i %>"><%= i %></a></li>
+              <% } %>
+              <% if (i == board.page + 4 && i < board.totalPages) { %>
+                  <li class="page-item disabled"><a class="page-link">...</a></li>
+              <% } %>
+            <% } %>
+            <% if (board.page == board.totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/board/list/<%= board.totalPages %>">Last</a></li>
+            <% } %>
+          </ul>
+        </nav>
 	</div><!--End Row-->
       <!--End Dashboard Content-->
 	  
