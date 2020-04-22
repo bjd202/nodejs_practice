@@ -1,6 +1,11 @@
 var express = require('express');
 var path = require('path');
 var router = express.Router();
+var multer = require('multer');
+
+var upload = multer({
+    dest : "upload/board/"
+})
 
 var BoardSchema = require('../schemas/BoardSchema');
 
@@ -56,12 +61,16 @@ router.get('/create', function (req, res) {
     res.render('board_create');
 })
 
-router.post('/create', function (req, res) {
+router.post('/create', upload.array("file"), function (req, res) {
     console.log('post board create 호출');
 
     var title = req.body.title || req.query.title;
     var content = req.body.content || req.query.content;
     var author = req.session.username;
+    var files = req.files;
+
+    console.log('---file 객체---');
+    console.dir(files);
 
     console.log('params : ' + title + ', ' + content + ', ' + author);
 
@@ -70,6 +79,21 @@ router.post('/create', function (req, res) {
     board.title = title;
     board.content = content;
     board.author = author;
+
+    if(typeof files != 'undefined'){
+        for(var i=0; i<files.length; i++){
+            var obj = {};
+
+            obj.filename = files[i].filename;
+            obj.oriname = files[i].oriname;
+            obj.path = files[i].path;
+            obj.size = files[i].size;
+            obj.mimetype = files[i].mimetype;
+
+            board.files.push(obj);
+        }
+    }
+    
 
     board.save(function (err) {
         if(err){

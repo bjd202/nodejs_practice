@@ -6,6 +6,13 @@ var Schema = new mongoose.Schema({
     content : {type : String},
     view : {type : Number, default : 0},
     author : {type : String},
+    files : [{
+        filename : {type : String, default : ''},
+        oriname : {type : String, defulat : ''},
+        path : {type : String, defulat : ''},
+        size : {type : Number, default : 0},
+        mimetype : {type : String, default : ''}
+    }],
     create_at : {type : Date, default : Date.now},
     update_at : {type : Date, default : Date.now}
 });

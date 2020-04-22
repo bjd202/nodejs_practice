@@ -28,7 +28,7 @@
            <div class="card-body">
            <div class="card-title">새 글쓰기</div>
            <hr>
-          <form id="form" method="post" action="/board/create">
+          <form id="form" method="post" action="/board/create" enctype="multipart/form-data">
            <div class="form-group">
             <label for="input-1">제목</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="제목">
@@ -39,7 +39,7 @@
            </div>
            <div class="form-group">
             <label for="input-3">파일첨부</label>
-            <input type="file" class="form-control" id="file">
+            <input type="file" class="form-control" id="file" name="file" multiple>
            </div>
            
            <div class="form-group">
@@ -120,13 +120,16 @@
   <script>
     $(document).ready(function () {
       $("#create").on('click', function () {
-        var data = $("#form").serialize();
+        //var data = $("#form").serialize();
+        var formData = new FormData($("#form")[0]);
 
         $.ajax({ 
           url: "/board/create",
-          data: data,
+          data: formData,
           method: 'post',
           dataType: 'json',
+          processData : false,
+          contentType : false,
           success: function (result) {
             console.dir(result);
             if(result.result == 1){
