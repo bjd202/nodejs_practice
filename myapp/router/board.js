@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 var multer = require('multer');
+var fs = require('fs');
 
 var upload = multer({
     dest : "upload/board/"
@@ -85,7 +86,7 @@ router.post('/create', upload.array("file"), function (req, res) {
             var obj = {};
 
             obj.filename = files[i].filename;
-            obj.oriname = files[i].oriname;
+            obj.originalname = files[i].originalname;
             obj.path = files[i].path;
             obj.size = files[i].size;
             obj.mimetype = files[i].mimetype;
@@ -112,7 +113,7 @@ router.get('/detail/:id', function (req, res) {
     var id = req.params.id;
     console.log('params : ' + id);
 
-    BoardSchema.findById(id, function (err, result) {
+    BoardSchema.findById(id).exec( function (err, result) {
         if(err){
             console.error(err);
             return;
@@ -120,6 +121,9 @@ router.get('/detail/:id', function (req, res) {
 
         result.view++;
         result.save();
+
+        console.dir(result);
+        console.log(result.files);
 
         if(result){
             res.render('board_detail', {board : result})
@@ -197,6 +201,42 @@ router.post('/delete/:id', function (req, res) {
         }
         
         
+    })
+})
+
+router.get('/download/:id/:fileid', function (req, res) {
+    console.log('get board download');
+
+    var id = req.params.id;
+    var fileid = req.params.fileid;
+
+    console.log('params : ' + id + ', ' + fileid);
+
+    BoardSchema.findOne({_id : id}, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            console.log(result);
+
+            for(var i=0; i<result.files.length; i++){
+                if(fileid == result.files[i]._id){
+                    var originalname = result.files[i].originalname;
+                    var filepath = "E:/nodejs/upload/board/" + result.files[i].filename;
+                    console.log(filepath);
+
+                    res.setHeader('Content-Disposition', 'attachment;filename=' + encodeURI(originalname))
+                    res.setHeader('Content-Type', 'binary/octet-stream')
+
+                    var fileStream = fs.createReadStream(filepath);
+                    fileStream.pipe(res);
+                }
+            }
+        }else{
+            console.log('데이터 없음');
+        }
     })
 })
 

@@ -38,8 +38,10 @@
             <textarea rows="15" class="form-control" id="content" name="content" readonly><%=board.content%></textarea>
            </div>
            <div class="form-group">
-            <label for="input-3">파일첨부</label>
-            <input type="file" class="form-control" id="file">
+            <label for="input-3">파일</label> <br>
+              <% for(var i=0; i<board.files.length; i++) { %>
+                <a href="/board/download/<%=board._id%>/<%=board.files[i]._id%>"><%=board.files[i].originalname%></a> <br>
+              <% } %>
            </div>
            
            <div class="form-group">

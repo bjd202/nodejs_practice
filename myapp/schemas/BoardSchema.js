@@ -8,7 +8,7 @@ var Schema = new mongoose.Schema({
     author : {type : String},
     files : [{
         filename : {type : String, default : ''},
-        oriname : {type : String, defulat : ''},
+        originalname : {type : String, defulat : ''},
         path : {type : String, defulat : ''},
         size : {type : Number, default : 0},
         mimetype : {type : String, default : ''}
