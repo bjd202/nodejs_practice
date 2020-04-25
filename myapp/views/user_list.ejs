@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
   <meta name="description" content=""/>
   <meta name="author" content=""/>
-  <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+  <title>Dashtreme Admin - Free Dashuser for Bootstrap 4 by Codervent</title>
   <%- include('common_css') -%>
 </head>
 
@@ -33,8 +33,8 @@
                     <i class="icon-options"></i>
                   </a>
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(14px, 19px, 0px);">
-                      <a class="dropdown-item" href="/board/create">새 글쓰기</a>
-                      <a class="dropdown-item" href="/board/delete">삭제</a>
+                      <a class="dropdown-item" href="/user/create">새 글쓰기</a>
+                      <a class="dropdown-item" href="/user/delete">삭제</a>
                     </div>
                     </div>
                 </div>
@@ -45,20 +45,16 @@
                   <thead>
                       <tr>
                         <th scope="col">순서</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">작성자</th>
-                        <th scope="col">조회수</th>
-                        <th scope="col">작성일</th>
+                        <th scope="col">회원이름</th>
+                        <th scope="col">가입일</th>
                       </tr>
                   </thead>
                   <tbody>
-                    <% for(var i=0; i<board.docs.length; i++){ %>
+                    <% for(var i=0; i<user.docs.length; i++){ %>
                       <tr>
                         <td scope="row"><%=i+1%></td>
-                        <td class="board_row" data-href="/board/detail/<%=board.docs[i]._id%>"><%=board.docs[i].title%></td>
-                        <td><%=board.docs[i].author%></td>
-                        <td><%=board.docs[i].view%></td>
-                        <td><%=board.docs[i].create_at.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+                        <td class="user_row" data-href="/user/detail/<%=user.docs[i]._id%>"><%=user.docs[i].username%></td>
+                        <td><%=user.docs[i].create_at.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
                       </tr>
                     <% } %>
                   </tbody>
@@ -70,34 +66,34 @@
 
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <% if(board.page == 1) { %>
+            <% if(user.page == 1) { %>
               <li class="page-item disabled"><a class="page-link">First</a></li>
             <% } else { %>
-              <li class="page-item"><a class="page-link" href="/board/list/1">First</a></li>
+              <li class="page-item"><a class="page-link" href="/user/list/1">First</a></li>
             <% } %>
-            <% var i = board.page > 5 ? board.page - 4 : 1 %>
+            <% var i = user.page > 5 ? user.page - 4 : 1 %>
             <% if(i != 1) { %>
               <li class="disabled"><a class="page-link">...</a></li>
             <% } %>
-            <% for (; i <= board.page + 4 && i <= board.totalPages; i++) { %>
-              <% if (i == board.page) { %>
+            <% for (; i <= user.page + 4 && i <= user.totalPages; i++) { %>
+              <% if (i == user.page) { %>
                   <li class="page-item active"><a class="page-link"><%= i %></a></li>
               <% } else { %>
-                  <li class="page-item"><a class="page-link" href="/board/list/<%= i %>"><%= i %></a></li>
+                  <li class="page-item"><a class="page-link" href="/user/list/<%= i %>"><%= i %></a></li>
               <% } %>
-              <% if (i == board.page + 4 && i < board.totalPages) { %>
+              <% if (i == user.page + 4 && i < user.totalPages) { %>
                   <li class="page-item disabled"><a class="page-link">...</a></li>
               <% } %>
             <% } %>
-            <% if (board.page == board.totalPages) { %>
+            <% if (user.page == user.totalPages) { %>
                 <li class="page-item disabled"><a class="page-link">Last</a></li>
             <% } else { %>
-                <li class="page-item"><a class="page-link" href="/board/list/<%= board.totalPages %>">Last</a></li>
+                <li class="page-item"><a class="page-link" href="/user/list/<%= user.totalPages %>">Last</a></li>
             <% } %>
           </ul>
         </nav>
 	</div><!--End Row-->
-      <!--End Dashboard Content-->
+      <!--End Dashuser Content-->
 	  
 	<!--start overlay-->
 		  <div class="overlay toggle-menu"></div>
@@ -165,11 +161,11 @@
   
   <script>
     $(document).ready(function () {
-      $(".board_row").on('click', function () {
+      $(".user_row").on('click', function () {
         window.location = $(this).data("href");
       })
 
-      $(".board_row").hover(function () {
+      $(".user_row").hover(function () {
         $(this).css('cursor', 'pointer');
       })
     })

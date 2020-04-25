@@ -150,7 +150,8 @@ router.get('/update/:id', function (req, res) {
             res.render('board_update', {board : result});
         }else{
             console.log('데이터 없음');
-            res.status(500).json('권한 없음');
+            res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+            res.status(500).end('권한이 없습니다.');
         }
     })
 })
