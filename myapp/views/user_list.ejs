@@ -53,8 +53,8 @@
                     <% for(var i=0; i<user.docs.length; i++){ %>
                       <tr>
                         <td scope="row"><%=i+1%></td>
-                        <td class="user_row" data-href="/user/detail/<%=user.docs[i]._id%>"><%=user.docs[i].username%></td>
-                        <td><%=user.docs[i].create_at.toISOString().replace(/T/, ' ').replace(/\..+/, '')%></td>
+                        <td class="user_row" data-href="/admin/user/detail/<%=user.docs[i]._id%>"><%=user.docs[i].username%></td>
+                        <td><%=user.docs[i].create_at.toLocaleString()%></td>
                       </tr>
                     <% } %>
                   </tbody>
@@ -69,7 +69,7 @@
             <% if(user.page == 1) { %>
               <li class="page-item disabled"><a class="page-link">First</a></li>
             <% } else { %>
-              <li class="page-item"><a class="page-link" href="/user/list/1">First</a></li>
+              <li class="page-item"><a class="page-link" href="/admin/user/list/1">First</a></li>
             <% } %>
             <% var i = user.page > 5 ? user.page - 4 : 1 %>
             <% if(i != 1) { %>
@@ -79,7 +79,7 @@
               <% if (i == user.page) { %>
                   <li class="page-item active"><a class="page-link"><%= i %></a></li>
               <% } else { %>
-                  <li class="page-item"><a class="page-link" href="/user/list/<%= i %>"><%= i %></a></li>
+                  <li class="page-item"><a class="page-link" href="/admin/user/list/<%= i %>"><%= i %></a></li>
               <% } %>
               <% if (i == user.page + 4 && i < user.totalPages) { %>
                   <li class="page-item disabled"><a class="page-link">...</a></li>
@@ -88,7 +88,7 @@
             <% if (user.page == user.totalPages) { %>
                 <li class="page-item disabled"><a class="page-link">Last</a></li>
             <% } else { %>
-                <li class="page-item"><a class="page-link" href="/user/list/<%= user.totalPages %>">Last</a></li>
+                <li class="page-item"><a class="page-link" href="/admin/user/list/<%= user.totalPages %>">Last</a></li>
             <% } %>
           </ul>
         </nav>

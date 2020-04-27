@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 var Schema = new mongoose.Schema({
-    title : {type : String},
-    content : {type : String},
-    view : {type : Number, default : 0},
+    name : {type : String},
+    category : {type : String},
+    number : {type : Number, default : 0},
+    desc : {type : String, default : ''},
     author : {type : String},
     files : [{
         filename : {type : String, default : ''},
@@ -19,4 +20,4 @@ var Schema = new mongoose.Schema({
 
 Schema.plugin(aggregatePaginate);
 
-module.exports = mongoose.model('myapp_board', Schema);
+module.exports = mongoose.model('myapp_item', Schema);

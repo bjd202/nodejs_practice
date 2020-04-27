@@ -30,4 +30,24 @@ router.get('/user/list/:page', function (req, res) {
     })
 })
 
+router.get('/user/detail/:id', function (req, res) {
+    console.log('get user detail');
+
+    var id = req.params.id;
+
+    UserSchema.findById(id, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            console.dir(result);
+            res.render('user_detail', {user : result});
+        }else{
+            console.log('데이터 없음');
+        }
+    })
+})
+
 module.exports = router;

@@ -29,6 +29,7 @@ app.set('view engine', 'ejs');
 var index = require('./router/index');
 var board = require('./router/board');
 var admin = require('./router/admin');
+var item = require('./router/item');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -69,6 +70,17 @@ app.use('/board', function (req, res, next) {
 
     next();
 }, board);
+app.use('/item', function (req, res, next) {
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    next();
+}, item);
+
 
 var server = http.createServer(app).listen(process.env.PORT || port, function(){
     console.log('서버가 시작되었습니다. 포트 : ' + port);
