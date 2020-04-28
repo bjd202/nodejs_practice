@@ -95,25 +95,21 @@ router.post('/create', upload.array("file"), function (req, res) {
 })
 
 router.get('/detail/:id', function (req, res) {
-    console.log('get board detail 호출');
+    console.log('get item detail 호출');
 
     var id = req.params.id;
     console.log('params : ' + id);
 
-    BoardSchema.findById(id).exec( function (err, result) {
+    ItemSchema.findById(id).exec( function (err, result) {
         if(err){
             console.error(err);
             return;
         }
 
-        result.view++;
-        result.save();
-
         console.dir(result);
-        console.log(result.files);
 
         if(result){
-            res.render('board_detail', {board : result})
+            res.render('item_detail', {item : result})
         }else{
             console.log('데이터 없음');
         }

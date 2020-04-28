@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Dashtreme Admin - Free Dashitem for Bootstrap 4 by Codervent</title>
+  <%- include('common_css') -%>
+  
+</head>
+
+<body class="bg-theme bg-theme1">
+ 
+<%- include('sidebar_left') -%>
+
+<%- include('header') -%>
+
+<div class="clearfix"></div>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+    <div class="row mt-3">
+      <div class="col-lg-8">
+         <div class="card">
+           <div class="card-header">상세보기
+            <div class="card-action">
+              <div class="dropdown">
+              <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" aria-expanded="false">
+               <i class="icon-options"></i>
+              </a>
+               <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-179px, 19px, 0px);">
+               <a class="dropdown-item" href="javascript:void();">입고</a>
+               <a class="dropdown-item" href="javascript:void();">출고</a>
+                </div>
+               </div>
+              </div>
+           </div>
+           <div class="card-body">
+          <form id="form" method="post">
+           <div class="form-group">
+            <label for="input-1">이름</label>
+            <input type="text" value="<%=item.name%>" class="form-control" id="name" name="name" readonly>
+           </div>
+           <div class="form-group">
+            <label for="input-2">종류</label>
+            <input type="text" value="<%=item.category%>" class="form-control" id="category" name="category" readonly>
+           </div>
+           <div class="form-group">
+            <label for="input-1">수량</label>
+            <input type="text" value="<%=item.number%>" class="form-control" id="number" name="number" readonly>
+           </div>
+           <div class="form-group">
+            <label for="input-2">비고</label>
+            <textarea rows="10" class="form-control" id="desc" name="desc" readonly><%=item.desc%></textarea>
+           </div>
+           <div class="form-group">
+            <label for="input-1">작성일</label>
+            <input type="text" value="<%=item.create_at.toLocaleString()%>" class="form-control" id="create_at" name="create_at" readonly>
+           </div>
+           <div class="form-group">
+            <label for="input-3">파일</label> <br>
+              <% for(var i=0; i<item.files.length; i++) { %>
+                <a href="/item/download/<%=item._id%>/<%=item.files[i]._id%>"><%=item.files[i].originalname%>(<%=(item.files[i].size/1024/1024).toFixed(2)%>MB)</a> <br>
+              <% } %>
+           </div>
+           
+           <div class="form-group">
+            <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
+            <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
+            <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
+          </div>
+          </form>
+         </div>
+        
+        </div>
+
+         </div>
+
+         <div class="col-12 col-lg-4 col-xl-4">
+          <div class="card">
+             <div class="card-header">입&출고 히스토리
+               <div class="card-action">
+               <div class="dropdown">
+               <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" aria-expanded="false">
+                <i class="icon-options"></i>
+               </a>
+                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-179px, 19px, 0px);">
+                <a class="dropdown-item" href="javascript:void();">Action</a>
+                <a class="dropdown-item" href="javascript:void();">Another action</a>
+                <a class="dropdown-item" href="javascript:void();">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:void();">Separated link</a>
+                 </div>
+                </div>
+               </div>
+             </div>
+             <div class="card-body">
+              <div>
+                <div class="form-group">
+                  <label for="input-1">구분</label>
+                  <select class="form-control">
+                    <option value="all">전체</option>
+                    <option value="in">입고</option>
+                    <option value="out">출고</option>
+                  </select>
+                 </div>
+                 <div class="form-group">
+                  <label for="input-1">시작일</label>
+                  <input class="form-control" type="date" id="start_dt" name="start_dt">
+                 </div>
+                 <div class="form-group">
+                  <label for="input-1">종료일</label>
+                  <input class="form-control" type="date" id="end_dt" name="end_dt">
+                 </div>
+              </div>
+             </div>
+             <div class="table-responsive">
+               <table class="table align-items-center">
+                 <tbody>
+                   <tr>
+                     <td><i class="fa fa-circle text-white mr-2"></i> Direct</td>
+                     <td>$5856</td>
+                     <td>+55%</td>
+                   </tr>
+                   <tr>
+                     <td><i class="fa fa-circle text-light-1 mr-2"></i>Affiliate</td>
+                     <td>$2602</td>
+                     <td>+25%</td>
+                   </tr>
+                   <tr>
+                     <td><i class="fa fa-circle text-light-2 mr-2"></i>E-mail</td>
+                     <td>$1802</td>
+                     <td>+15%</td>
+                   </tr>
+                   <tr>
+                     <td><i class="fa fa-circle text-light-3 mr-2"></i>Other</td>
+                     <td>$1105</td>
+                     <td>+5%</td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+           </div>
+       </div>
+      </div>
+
+    </div><!--End Row-->
+
+	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+
+    </div>
+    <!-- End container-fluid-->
+    
+   </div>
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+	
+  <!--start color switcher-->
+   <div class="right-sidebar">
+    <div class="switcher-icon">
+      <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+    </div>
+    <div class="right-sidebar-content">
+
+      <p class="mb-0">Gaussion Texture</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme1"></li>
+        <li id="theme2"></li>
+        <li id="theme3"></li>
+        <li id="theme4"></li>
+        <li id="theme5"></li>
+        <li id="theme6"></li>
+      </ul>
+
+      <p class="mb-0">Gradient Background</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme7"></li>
+        <li id="theme8"></li>
+        <li id="theme9"></li>
+        <li id="theme10"></li>
+        <li id="theme11"></li>
+        <li id="theme12"></li>
+		<li id="theme13"></li>
+        <li id="theme14"></li>
+        <li id="theme15"></li>
+      </ul>
+      
+     </div>
+   </div>
+  <!--end color switcher-->
+   
+  </div><!--End wrapper-->
+
+  <%- include('common_script') -%>
+  
+  <script>
+    $(document).ready(function () {
+      $("#list").on('click', function () {
+        window.location = '/item/list/1';
+      })
+
+      $('#update').on('click', function () {
+        window.location = '/item/update/' + '<%=item._id%>'
+      })
+
+      $('#delete').on('click', function () {
+        $.ajax({ 
+          url: "/item/delete/" + '<%=item._id%>',
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {
+            console.dir(result);
+            if(result.result == 1){
+              alert('게시물 삭제 성공');
+              location.href = '/item/list/1';
+            }else{
+              alert('게시물 작성 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+      })
+
+      $("#create").on('click', function () {
+        var data = $("#form").serialize();
+
+        $.ajax({ 
+          url: "/item/create",
+          data: data,
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {s
+            console.dir(result);
+            if(result.result == 1){
+              location.href = '/item/list/1';
+            }else{
+              alert('게시물 작성 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>
