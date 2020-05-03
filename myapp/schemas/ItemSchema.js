@@ -1,6 +1,13 @@
 var mongoose = require('mongoose');
 var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
+var history = new mongoose.Schema({
+    date : {type : Date},
+    category : {type : String, default : ''},
+    number : {type : Number, default : 0},
+    desc : {type : String, default : ''}
+})
+
 var Schema = new mongoose.Schema({
     name : {type : String},
     category : {type : String},
@@ -15,8 +22,11 @@ var Schema = new mongoose.Schema({
         mimetype : {type : String, default : ''}
     }],
     create_at : {type : Date, default : new Date()},
-    update_at : {type : Date, default : new Date()}
+    update_at : {type : Date, default : new Date()},
+    history : {type : [history]}
 });
+
+
 
 Schema.plugin(aggregatePaginate);
 

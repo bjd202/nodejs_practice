@@ -3,6 +3,7 @@ var path = require('path');
 var router = express.Router();
 var multer = require('multer');
 var fs = require('fs');
+var moment = require('moment');
 
 var upload = multer({
     dest : "upload/item/"
@@ -109,7 +110,7 @@ router.get('/detail/:id', function (req, res) {
         console.dir(result);
 
         if(result){
-            res.render('item_detail', {item : result})
+            res.render('item_detail', {item : result, moment : moment})
         }else{
             console.log('데이터 없음');
         }
@@ -117,20 +118,20 @@ router.get('/detail/:id', function (req, res) {
 })
 
 router.get('/update/:id', function (req, res) {
-    console.log('get board update 호출');
+    console.log('get item update 호출');
 
     var id = req.params.id;
     var author = req.session.username;
     console.log('params : ' + id + ', ' + author);
 
-    BoardSchema.findOne({_id : id, author : author}, function (err, result) {
+    ItemSchema.findOne({_id : id, author : author}, function (err, result) {
         if(err){
             console.error(err);
             return;
         }
 
         if(result){
-            res.render('board_update', {board : result});
+            res.render('item_update', {item : result});
         }else{
             console.log('데이터 없음');
             res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
@@ -140,15 +141,17 @@ router.get('/update/:id', function (req, res) {
 })
 
 router.post('/update/:id', function (req, res) {
-    console.log('post board update 호출');
+    console.log('post item update 호출');
 
     var id = req.params.id;
     var author = req.session.username;
-    var title = req.body.title || req.query.title;
-    var content = req.body.content || req.query.content;
-    console.log('params : ' + id + ', ' + title + ', ' + content);
+    var name = req.body.name;
+    var category = req.body.category;
+    var desc = req.body.desc;
 
-    BoardSchema.update({_id : id, author : author}, {$set : {title : title, content : content}}, function (err, result) {
+    console.log(req.body);
+
+    BoardSchema.update({_id : id, author : author}, {$set : {name : name, category : category, desc : desc, update_at : new Date()}}, function (err, result) {
         if(err){
             console.error(err);
             return;
@@ -222,6 +225,91 @@ router.get('/download/:id/:fileid', function (req, res) {
             console.log('데이터 없음');
         }
     })
+})
+
+router.post('/detail/search', function (req, res) {
+    console.log('post detail search');
+
+    var id = req.body.id;
+    var start_dt = req.body.start_dt;
+    var end_dt = req.body.end_dt;
+    var category = req.body.category;
+    var number = req.body.number;
+    var desc = req.body.desc;
+
+    console.log(req.body);
+
+    console.log(start_dt)
+    console.log(end_dt)
+
+    ItemSchema.findById(id, function (err, result) {
+        if(err){
+            console.error(err);
+            res.json({result : 0});
+            return;
+        }
+
+        if(result){
+            var arr = [];
+            var history = result.history;
+
+            if(category == 'all'){
+                for(var i=0; i<history.length; i++){
+                    if(history[i].date >= new Date(start_dt) && history[i].date <= new Date(end_dt)){
+                        arr.push(history[i]);
+                    }
+                }
+            }else{
+                for(var i=0; i<history.length; i++){
+                    if(history[i].category == category && history[i].date >= new Date(start_dt) && history[i].date <= new Date(end_dt)){
+                        arr.push(history[i]);
+                    }
+                }
+            }
+
+            res.json({result : 1, searched_list : arr});
+        }
+    })
+})
+
+router.post('/detail/inout', function (req, res) {
+    console.log('post detail inout');
+
+    var id = req.body.id;
+    var date = req.body.date;
+    var category = req.body.category;
+    var number = req.body.number;
+    var desc = req.body.desc;
+
+    var history = {
+        date : date,
+        category : category,
+        number : number,
+        desc : desc
+    }
+
+    if(category == 'out'){
+        number = number * -1;
+    }
+
+    ItemSchema.update({_id : id}, 
+        {
+            $push : {history : history},
+            $inc : {number : number},
+        }, function (err, result) {
+        if(err){
+            console.error(err);
+            res.json({result : 0});
+            return;
+        }
+
+        if(result){
+            console.log(result);
+            res.json({result : 1});
+            return;
+        }
+    })
+        
 })
 
 module.exports = router;

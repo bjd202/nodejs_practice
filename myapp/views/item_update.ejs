@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+  <%- include('common_css') -%>
+  
+</head>
+
+<body class="bg-theme bg-theme1">
+ 
+<%- include('sidebar_left') -%>
+
+<%- include('header') -%>
+
+<div class="clearfix"></div>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+    <div class="row mt-3">
+      <div class="col-lg-12">
+         <div class="card">
+           <div class="card-body">
+           <div class="card-title">재고 추가</div>
+           <hr>
+          <form id="form" method="post" action="/board/create" enctype="multipart/form-data">
+           <div class="form-group">
+            <label for="input-1">이름</label>
+            <input type="text" value="<%=item.name%>" class="form-control" name="name" placeholder="제목">
+           </div>
+           <div class="form-group">
+            <label for="input-3">종류</label>
+            <select class="form-control" name="category" form="form">
+              <option value="사무기기">사무기기</option>
+              <option value="물류">물류</option>
+            </select>
+           </div>
+           <div class="form-group">
+            <label for="input-3">수량</label>
+            <input type="number" value="<%=item.number%>" class="form-control" name="number" placeholder="수량">
+           </div>
+           <div class="form-group">
+            <label for="input-4">설명</label>
+            <textarea rows="15" class="form-control" name="desc" placeholder="설명"></textarea>
+           </div>
+           <div class="form-group">
+            <label for="input-3">파일첨부</label>
+            <input type="file" class="form-control" name="file" multiple>
+           </div>
+           
+           <div class="form-group">
+            <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
+            <button type="button" id="cancel" class="btn btn-light px-5"> 취소</button>
+          </div>
+          </form>
+         </div>
+         </div>
+      </div>
+
+    </div><!--End Row-->
+
+	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+
+    </div>
+    <!-- End container-fluid-->
+    
+   </div>
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+	
+	<!--Start footer-->
+	<footer class="footer">
+      <div class="container">
+        <div class="text-center">
+          Copyright © 2018 Dashtreme Admin
+        </div>
+      </div>
+    </footer>
+	<!--End footer-->
+	
+  <!--start color switcher-->
+   <div class="right-sidebar">
+    <div class="switcher-icon">
+      <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+    </div>
+    <div class="right-sidebar-content">
+
+      <p class="mb-0">Gaussion Texture</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme1"></li>
+        <li id="theme2"></li>
+        <li id="theme3"></li>
+        <li id="theme4"></li>
+        <li id="theme5"></li>
+        <li id="theme6"></li>
+      </ul>
+
+      <p class="mb-0">Gradient Background</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme7"></li>
+        <li id="theme8"></li>
+        <li id="theme9"></li>
+        <li id="theme10"></li>
+        <li id="theme11"></li>
+        <li id="theme12"></li>
+		<li id="theme13"></li>
+        <li id="theme14"></li>
+        <li id="theme15"></li>
+      </ul>
+      
+     </div>
+   </div>
+  <!--end color switcher-->
+   
+  </div><!--End wrapper-->
+
+  <%- include('common_script') -%>
+  
+  <script>
+    $(document).ready(function () {
+      $("#create").on('click', function () {
+        //var data = $("#form").serialize();
+        var formData = new FormData($("#form")[0]);
+
+        console.dir(formData);
+
+        $.ajax({ 
+          url: "/item/create",
+          data: formData,
+          method: 'post',
+          dataType: 'json',
+          processData : false,
+          contentType : false,
+          success: function (result) {
+            console.dir(result);
+            if(result.result == 1){
+              location.href = '/item/list/1';
+            }else{
+              alert('게시물 작성 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+      })
+    })
+  </script>
+</body>
+</html>
