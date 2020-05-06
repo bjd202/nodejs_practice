@@ -145,13 +145,15 @@ router.post('/update/:id', function (req, res) {
 
     var id = req.params.id;
     var author = req.session.username;
-    var name = req.body.name;
-    var category = req.body.category;
-    var desc = req.body.desc;
+    var name = req.body.name || req.query.name;
+    var category = req.body.category || req.query.category;
+    var number = req.body.number || req.query.number;
+    var desc = req.body.desc || req.query.desc;
 
+    console.log(id, author, name, category);
     console.log(req.body);
 
-    BoardSchema.update({_id : id, author : author}, {$set : {name : name, category : category, desc : desc, update_at : new Date()}}, function (err, result) {
+    ItemSchema.updateOne({_id : id, author : author}, {$set : {name : name, category : category, number : number, desc : desc, update_at : new Date()}}, function (err, result) {
         if(err){
             console.error(err);
             return;

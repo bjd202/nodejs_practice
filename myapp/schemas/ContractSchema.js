@@ -2,17 +2,17 @@ var mongoose = require('mongoose');
 var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 var moment = require('moment');
 
-var history = new mongoose.Schema({
-    date : {type : Date},
-    category : {type : String, default : ''},
-    number : {type : Number, default : 0},
-    desc : {type : String, default : ''}
-})
-
 var Schema = new mongoose.Schema({
     name : {type : String},
     category : {type : String},
-    number : {type : Number, default : 0},
+    company : {type : String},
+    company_number : {type : String, default : ''},
+    company_location : {type : String, default : ''},
+    company_employees : [{
+        employee_name : {type : String},
+        employee_number : {type : String},
+        employee_rank : {type : String}
+    }],
     desc : {type : String, default : ''},
     author : {type : String},
     files : [{
@@ -24,11 +24,13 @@ var Schema = new mongoose.Schema({
     }],
     create_at : {type : Date, default : moment().format()},
     update_at : {type : Date, default : moment().format()},
-    history : {type : [history]}
+    contract_dt : {type : Date},
+    contract_start_dt : {type : Date},
+    contract_end_dt : {type : Date}
 });
 
 
 
 Schema.plugin(aggregatePaginate);
 
-module.exports = mongoose.model('myapp_item', Schema);
+module.exports = mongoose.model('myapp_contract', Schema);

@@ -26,27 +26,27 @@
       <div class="col-lg-12">
          <div class="card">
            <div class="card-body">
-           <div class="card-title">재고 추가</div>
+           <div class="card-title">재고 수정</div>
            <hr>
-          <form id="form" method="post" action="/board/create" enctype="multipart/form-data">
+          <form id="form" method="post" action="/itme/update">
            <div class="form-group">
             <label for="input-1">이름</label>
-            <input type="text" value="<%=item.name%>" class="form-control" name="name" placeholder="제목">
+            <input type="text" value="<%=item.name%>" class="form-control" id="name" name="name" placeholder="제목">
            </div>
            <div class="form-group">
             <label for="input-3">종류</label>
-            <select class="form-control" name="category" form="form">
+            <select class="form-control" id="category" name="category" form="form">
               <option value="사무기기">사무기기</option>
               <option value="물류">물류</option>
             </select>
            </div>
            <div class="form-group">
             <label for="input-3">수량</label>
-            <input type="number" value="<%=item.number%>" class="form-control" name="number" placeholder="수량">
+            <input type="number" value="<%=item.number%>" class="form-control" id="number" name="number" placeholder="수량">
            </div>
            <div class="form-group">
             <label for="input-4">설명</label>
-            <textarea rows="15" class="form-control" name="desc" placeholder="설명"></textarea>
+            <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="설명"><%=item.desc%></textarea>
            </div>
            <div class="form-group">
             <label for="input-3">파일첨부</label>
@@ -130,25 +130,30 @@
   
   <script>
     $(document).ready(function () {
-      $("#create").on('click', function () {
-        //var data = $("#form").serialize();
-        var formData = new FormData($("#form")[0]);
+
+      $("#category option").each(function () {
+        if($(this).val() == "<%=item.category%>"){
+          $(this).attr("selected", "selected");
+        }
+      })
+
+      $("#update").on('click', function () {
+        var formData = $("#form").serialize();
+        //var formData = new FormData($("#form")[0]);
 
         console.dir(formData);
 
         $.ajax({ 
-          url: "/item/create",
+          url: "/item/update/" + "<%=item.id%>",
           data: formData,
           method: 'post',
           dataType: 'json',
-          processData : false,
-          contentType : false,
           success: function (result) {
             console.dir(result);
             if(result.result == 1){
-              location.href = '/item/list/1';
+              location.href = '/item/detail/<%=item.id%>';
             }else{
-              alert('게시물 작성 실패');
+              alert('게시물 수정 실패');
             }
           },
           error: function (xhr, status, error) {

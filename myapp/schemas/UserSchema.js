@@ -1,12 +1,13 @@
 var mongoose = require('mongoose');
 var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
+var moment = require('moment');
 
 var Schema = new mongoose.Schema({
     username : {type : String},
     password : {type : String},
     email : {type : String},
     salt : {type : String},
-    create_at : {type : Date, default : new Date()}
+    create_at : {type : Date, default : moment().format()}
 });
 
 Schema.plugin(aggregatePaginate);

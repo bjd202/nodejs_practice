@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var aggregatePaginate = require('mongoose-aggregate-paginate-v2');
+var moment = require('moment');
 
 var Schema = new mongoose.Schema({
     title : {type : String},
@@ -13,8 +14,8 @@ var Schema = new mongoose.Schema({
         size : {type : Number, default : 0},
         mimetype : {type : String, default : ''}
     }],
-    create_at : {type : Date, default : new Date()},
-    update_at : {type : Date, default : new Date()}
+    create_at : {type : Date, default : moment().format()},
+    update_at : {type : Date, default : moment().format()}
 });
 
 Schema.plugin(aggregatePaginate);

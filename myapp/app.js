@@ -30,6 +30,7 @@ var index = require('./router/index');
 var board = require('./router/board');
 var admin = require('./router/admin');
 var item = require('./router/item');
+var contract = require('./router/contract');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -80,6 +81,17 @@ app.use('/item', function (req, res, next) {
 
     next();
 }, item);
+
+app.use('/contract', function (req, res, next) {
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    next();
+}, contract)
 
 
 var server = http.createServer(app).listen(process.env.PORT || port, function(){

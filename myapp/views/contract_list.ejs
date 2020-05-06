@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>Dashtreme Admin - Free Dashitem for Bootstrap 4 by Codervent</title>
+  <%- include('common_css') -%>
+</head>
+
+<body class="bg-theme bg-theme1">
+ 
+<%- include('sidebar_left') -%>
+
+<%- include('header') -%>
+
+<div class="clearfix"></div>
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+	<div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                재고목록
+
+                <div class="card-action">
+                  <div class="dropdown">
+                  <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" aria-expanded="false">
+                    <i class="icon-options"></i>
+                  </a>
+                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(14px, 19px, 0px);">
+                      <a class="dropdown-item" href="/item/create">재고 추가</a>
+                      <a class="dropdown-item" href="/item/delete">삭제</a>
+                    </div>
+                    </div>
+                </div>
+              </div>
+                
+              <div class="table-responsive">
+                  <table class="table">
+                  <thead>
+                      <tr>
+                        <th scope="col">순서</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">종류</th>
+                        <th scope="col">수량</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">작성일</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i=0; i<item.docs.length; i++){ %>
+                      <tr>
+                        <td scope="row"><%=i+1%></td>
+                        <td class="item_row" data-href="/item/detail/<%=item.docs[i]._id%>"><%=item.docs[i].name%></td>
+                        <td><%=item.docs[i].category%></td>
+                        <td><%=item.docs[i].number%></td>
+                        <td><%=item.docs[i].author%></td>
+                        <td><%=item.docs[i].create_at.toLocaleString()%></td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                  </table>
+              </div>
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <% if(item.page == 1) { %>
+              <li class="page-item disabled"><a class="page-link">First</a></li>
+            <% } else { %>
+              <li class="page-item"><a class="page-link" href="/item/list/1">First</a></li>
+            <% } %>
+            <% var i = item.page > 5 ? item.page - 4 : 1 %>
+            <% if(i != 1) { %>
+              <li class="disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= item.page + 4 && i <= item.totalPages; i++) { %>
+              <% if (i == item.page) { %>
+                  <li class="page-item active"><a class="page-link"><%= i %></a></li>
+              <% } else { %>
+                  <li class="page-item"><a class="page-link" href="/item/list/<%= i %>"><%= i %></a></li>
+              <% } %>
+              <% if (i == item.page + 4 && i < item.totalPages) { %>
+                  <li class="page-item disabled"><a class="page-link">...</a></li>
+              <% } %>
+            <% } %>
+            <% if (item.page == item.totalPages) { %>
+                <li class="page-item disabled"><a class="page-link">Last</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/item/list/<%= item.totalPages %>">Last</a></li>
+            <% } %>
+          </ul>
+        </nav>
+	</div><!--End Row-->
+      <!--End Dashitem Content-->
+	  
+	<!--start overlay-->
+		  <div class="overlay toggle-menu"></div>
+		<!--end overlay-->
+		
+    </div>
+    <!-- End container-fluid-->
+    
+    </div><!--End content-wrapper-->
+   <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+	
+	<!--Start footer-->
+	<footer class="footer">
+      <div class="container">
+        <div class="text-center">
+          Copyright © 2018 Dashtreme Admin
+        </div>
+      </div>
+    </footer>
+	<!--End footer-->
+	
+  <!--start color switcher-->
+   <div class="right-sidebar">
+    <div class="switcher-icon">
+      <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+    </div>
+    <div class="right-sidebar-content">
+
+      <p class="mb-0">Gaussion Texture</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme1"></li>
+        <li id="theme2"></li>
+        <li id="theme3"></li>
+        <li id="theme4"></li>
+        <li id="theme5"></li>
+        <li id="theme6"></li>
+      </ul>
+
+      <p class="mb-0">Gradient Background</p>
+      <hr>
+      
+      <ul class="switcher">
+        <li id="theme7"></li>
+        <li id="theme8"></li>
+        <li id="theme9"></li>
+        <li id="theme10"></li>
+        <li id="theme11"></li>
+        <li id="theme12"></li>
+		<li id="theme13"></li>
+        <li id="theme14"></li>
+        <li id="theme15"></li>
+      </ul>
+      
+     </div>
+   </div>
+  <!--end color switcher-->
+   
+  </div><!--End wrapper-->
+
+  <%- include('common_script') -%>
+  
+  <script>
+    $(document).ready(function () {
+      $(".item_row").on('click', function () {
+        window.location = $(this).data("href");
+      })
+
+      $(".item_row").hover(function () {
+        $(this).css('cursor', 'pointer');
+      })
+    })
+  </script>
+</body>
+</html>
