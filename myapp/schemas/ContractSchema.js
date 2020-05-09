@@ -9,9 +9,9 @@ var Schema = new mongoose.Schema({
     company_number : {type : String, default : ''},
     company_location : {type : String, default : ''},
     company_employees : [{
-        employee_name : {type : String},
-        employee_number : {type : String},
-        employee_rank : {type : String}
+        employee_name : {type : String, default : ''},
+        employee_number : {type : String, default : ''},
+        employee_rank : {type : String, default : ''}
     }],
     desc : {type : String, default : ''},
     author : {type : String},

@@ -25,7 +25,7 @@
         <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
-                재고목록
+                계약목록
 
                 <div class="card-action">
                   <div class="dropdown">
@@ -33,8 +33,8 @@
                     <i class="icon-options"></i>
                   </a>
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(14px, 19px, 0px);">
-                      <a class="dropdown-item" href="/item/create">재고 추가</a>
-                      <a class="dropdown-item" href="/item/delete">삭제</a>
+                      <a class="dropdown-item" href="/contract/create">계약 추가</a>
+                      <a class="dropdown-item" href="/contract/delete">삭제</a>
                     </div>
                     </div>
                 </div>
@@ -47,20 +47,20 @@
                         <th scope="col">순서</th>
                         <th scope="col">이름</th>
                         <th scope="col">종류</th>
-                        <th scope="col">수량</th>
+                        <th scope="col">계약 회사</th>
                         <th scope="col">작성자</th>
                         <th scope="col">작성일</th>
                       </tr>
                   </thead>
                   <tbody>
-                    <% for(var i=0; i<item.docs.length; i++){ %>
+                    <% for(var i=0; i<contract.docs.length; i++){ %>
                       <tr>
                         <td scope="row"><%=i+1%></td>
-                        <td class="item_row" data-href="/item/detail/<%=item.docs[i]._id%>"><%=item.docs[i].name%></td>
-                        <td><%=item.docs[i].category%></td>
-                        <td><%=item.docs[i].number%></td>
-                        <td><%=item.docs[i].author%></td>
-                        <td><%=item.docs[i].create_at.toLocaleString()%></td>
+                        <td class="contract_row" data-href="/contract/detail/<%=contract.docs[i]._id%>"><%=contract.docs[i].name%></td>
+                        <td><%=contract.docs[i].category%></td>
+                        <td><%=contract.docs[i].company%></td>
+                        <td><%=contract.docs[i].author%></td>
+                        <td><%=contract.docs[i].create_at.toLocaleString()%></td>
                       </tr>
                     <% } %>
                   </tbody>
@@ -72,29 +72,29 @@
 
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <% if(item.page == 1) { %>
+            <% if(contract.page == 1) { %>
               <li class="page-item disabled"><a class="page-link">First</a></li>
             <% } else { %>
-              <li class="page-item"><a class="page-link" href="/item/list/1">First</a></li>
+              <li class="page-item"><a class="page-link" href="/contract/list/1">First</a></li>
             <% } %>
-            <% var i = item.page > 5 ? item.page - 4 : 1 %>
+            <% var i = contract.page > 5 ? contract.page - 4 : 1 %>
             <% if(i != 1) { %>
               <li class="disabled"><a class="page-link">...</a></li>
             <% } %>
-            <% for (; i <= item.page + 4 && i <= item.totalPages; i++) { %>
-              <% if (i == item.page) { %>
+            <% for (; i <= contract.page + 4 && i <= contract.totalPages; i++) { %>
+              <% if (i == contract.page) { %>
                   <li class="page-item active"><a class="page-link"><%= i %></a></li>
               <% } else { %>
-                  <li class="page-item"><a class="page-link" href="/item/list/<%= i %>"><%= i %></a></li>
+                  <li class="page-item"><a class="page-link" href="/contract/list/<%= i %>"><%= i %></a></li>
               <% } %>
-              <% if (i == item.page + 4 && i < item.totalPages) { %>
+              <% if (i == contract.page + 4 && i < contract.totalPages) { %>
                   <li class="page-item disabled"><a class="page-link">...</a></li>
               <% } %>
             <% } %>
-            <% if (item.page == item.totalPages) { %>
+            <% if (contract.page == contract.totalPages) { %>
                 <li class="page-item disabled"><a class="page-link">Last</a></li>
             <% } else { %>
-                <li class="page-item"><a class="page-link" href="/item/list/<%= item.totalPages %>">Last</a></li>
+                <li class="page-item"><a class="page-link" href="/contract/list/<%= contract.totalPages %>">Last</a></li>
             <% } %>
           </ul>
         </nav>
@@ -167,11 +167,11 @@
   
   <script>
     $(document).ready(function () {
-      $(".item_row").on('click', function () {
+      $(".contract_row").on('click', function () {
         window.location = $(this).data("href");
       })
 
-      $(".item_row").hover(function () {
+      $(".contract_row").hover(function () {
         $(this).css('cursor', 'pointer');
       })
     })
