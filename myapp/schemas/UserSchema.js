@@ -7,7 +7,7 @@ var Schema = new mongoose.Schema({
     password : {type : String},
     email : {type : String},
     salt : {type : String},
-    create_at : {type : Date, default : moment().format()}
+    create_at : {type : Date, default : Date.now()}
 });
 
 Schema.plugin(aggregatePaginate);

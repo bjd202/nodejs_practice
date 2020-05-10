@@ -46,6 +46,8 @@ router.get('/create', function (req, res) {
 router.post('/create', upload.array("file"), function (req, res) {
     console.log('post contract create')
 
+    console.dir(req.body);
+
     var name = req.body.name;
     var category = req.body.category;
     var company = req.body.company;
@@ -57,6 +59,9 @@ router.post('/create', upload.array("file"), function (req, res) {
     var contract_start_dt = req.body.contract_start_dt;
     var contract_end_dt = req.body.contract_end_dt;
     var files = req.files;
+    var employee_rank = req.body.employee_rank;
+    var employee_name = req.body.employee_name;
+    var employee_number = req.body.employee_number;
     
     var contract = new ContractSchema();
 
@@ -83,6 +88,16 @@ router.post('/create', upload.array("file"), function (req, res) {
 
             contract.files.push(obj);
         }
+    }
+
+    for (let i = 0; i < employee_rank.length; i++) {
+        var obj = {};
+
+        obj.employee_name = employee_name[i];
+        obj.employee_number = employee_number[i];
+        obj.employee_rank = employee_rank[i];
+
+        contract.company_employees.push(obj);
     }
 
     contract.save(function (err) {

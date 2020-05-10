@@ -14,8 +14,8 @@ var Schema = new mongoose.Schema({
         size : {type : Number, default : 0},
         mimetype : {type : String, default : ''}
     }],
-    create_at : {type : Date, default : moment().format()},
-    update_at : {type : Date, default : moment().format()}
+    create_at : {type : Date, default : Date.now()},
+    update_at : {type : Date, default : Date.now()}
 });
 
 Schema.plugin(aggregatePaginate);
