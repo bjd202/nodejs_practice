@@ -28,15 +28,15 @@
            <div class="card-body">
             <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
               <li class="nav-item">
-                <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active"><i class="icon-user"></i> <span class="hidden-xs">Profile</span></a>
+                <a href="javascript:void();" data-target="#contract" data-toggle="pill" class="nav-link active"> <span class="">계약 정보</span></a>
               </li>
               <li class="nav-item">
-                <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i> <span class="hidden-xs">Messages</span></a>
+                <a href="javascript:void();" data-target="#company" data-toggle="pill" class="nav-link"><span class="">계약 회사 정보</span></a>
               </li>
             </ul>
 
             <div class="tab-content">
-              <div class="tab-pane active" id="profile">
+              <div class="tab-pane active" id="contract">
                 <div class="card-title">새 계약</div>
                 <hr>
                <form id="form" method="post" action="/contract/create" enctype="multipart/form-data">
@@ -73,7 +73,7 @@
                 </div>
               </div>
 
-              <div class="tab-pane" id="messages">
+              <div class="tab-pane" id="company">
                 <div class="card-title">계약 회사 정보</div>
                 <hr>
                 <form id="company_form" method="post" action="/contract/create" enctype="multipart/form-data">

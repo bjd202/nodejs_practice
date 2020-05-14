@@ -130,4 +130,29 @@ router.get('/detail/:id', function (req, res) {
     })
 })
 
+router.get('/update/:id', function (req, res) {
+    console.log('get update contract');
+
+    var id = req.params.id;
+
+    var id = req.params.id;
+    var author = req.session.username;
+    console.log('params : ' + id + ', ' + author);
+
+    ContractSchema.findOne({_id : id, author : author}, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            res.render('contract_update', {contract : result, moment : moment} );
+        }else{
+            console.log('데이터 없음');
+            res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
+            res.status(500).end('권한이 없습니다.');
+        }
+    })
+})
+
 module.exports = router;

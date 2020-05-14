@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -42,11 +42,11 @@
                 <form id="form" method="post" action="/contract/create" enctype="multipart/form-data">
                   <div class="form-group">
                   <label for="input-1">계약 이름</label>
-                  <input type="text" value="<%=contract.name%>" class="form-control" id="name" name="name" placeholder="계약 이름" readonly>
+                  <input type="text" value="<%=contract.name%>" class="form-control" id="name" name="name" placeholder="계약 이름" >
                   </div>
                   <div class="form-group">
                   <label for="input-2">내용</label>
-                  <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="내용" readonly><%=contract.desc%></textarea>
+                  <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="내용" ><%=contract.desc%></textarea>
                   </div>
                   <div class="form-group">
                   <label for="input-3">계약 종류</label>
@@ -57,15 +57,15 @@
                   </div>
                   <div class="form-group">
                   <label for="input-1">계약일</label>
-                  <input type="date" value="<%=moment(contract.contract_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_dt" name="contract_dt" placeholder="계약일" readonly>
+                  <input type="date" value="<%=moment(contract.contract_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_dt" name="contract_dt" >
                   </div>
                   <div class="form-group">
                   <label for="input-1">계약 시작일</label>
-                  <input type="date" value="<%=moment(contract.contract_start_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_start_dt" name="contract_start_dt" placeholder="계약 시작일" readonly>
+                  <input type="date" value="<%=moment(contract.contract_start_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_start_dt" name="contract_start_dt" >
                   </div>
                   <div class="form-group">
                   <label for="input-1">계약 종료일</label>
-                  <input type="date" value="<%=moment(contract.contract_end_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_end_dt" name="contract_end_dt" placeholder="계약 종료일" readonly>
+                  <input type="date" value="<%=moment(contract.contract_end_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_end_dt" name="contract_end_dt" >
                   </div>
                   <div class="form-group">
                   <label for="input-3">파일첨부</label>
@@ -84,49 +84,23 @@
                 <form id="company_form" method="post" action="/contract/create" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="input-1">회사 이름</label>
-                    <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company" placeholder="회사 이름" readonly>
+                    <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company" placeholder="회사 이름" >
                     </div>
                     <div class="form-group">
                     <label for="input-1">회사 전화번호</label>
-                    <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number" name="company_number" placeholder="회사 전화번호" readonly>
+                    <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number" name="company_number" placeholder="회사 전화번호" >
                     </div>
                     <div class="form-group">
                     <label for="input-1">회사 위치</label>
-                    <input type="text" value="<%=contract.company_location%>" class="form-control" id="company_location" name="company_location" placeholder="회사 위치" readonly>
-                    </div>
-                    <div class="form-group">
-                      <form id="employee_form" method="POST">
-                        <label for="input-1">담당 직원</label>
-                        <table id="employee_table" class="table">
-                          <thead>
-                            <tr>
-                              <th>직급</th>
-                              <th>이름</th>
-                              <th>전화번호</th>
-                            </tr>
-                          </thead>
-                          
-                          <tbody id="employee_tbody">
-                            <% for(var i=0; i<contract.company_employees.length; i++){ %>
-                              <tr>
-                                <td><%=contract.company_employees[i].employee_rank%></td>
-                                <td><%=contract.company_employees[i].employee_name%></td>
-                                <td><%=contract.company_employees[i].employee_number%></td>
-                              </tr>
-                            <% } %>
-                          </tbody>
-                          
-                        </table>
-                      </form>
+                    <input type="text" value="<%=contract.company_location%>" class="form-control" id="company_location" name="company_location" placeholder="회사 위치" >
                     </div>
                 </form>
               </div>
 
               <div class="form-group">
-                <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
                 <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
-                <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
-                </div>
+                <button type="button" id="cancel" class="btn btn-light px-5"> 취소</button>
+              </div>
             </div>
             
           </div>
@@ -206,34 +180,34 @@
 
       $("#category").val("<%=contract.category%>").attr("selected", "selected");
       $("#category option").not(":selected").attr("disabled", "disabled");
-      
 
-      $("#list").on('click', function () {
-        window.location = '/contract/list/1';
-      })
+      $("#update").on('click', function () {
+        var formData = $("#form").serialize();
+        //var formData = new FormData($("#form")[0]);
 
-      $('#update').on('click', function () {
-        window.location = '/contract/update/' + '<%=contract._id%>'
-      })
+        console.dir(formData);
 
-      $('#delete').on('click', function () {
         $.ajax({ 
-          url: "/contract/delete/" + '<%=contract._id%>',
+          url: "/contract/update/" + "<%=contract.id%>",
+          data: formData,
           method: 'post',
           dataType: 'json',
           success: function (result) {
             console.dir(result);
             if(result.result == 1){
-              alert('게시물 삭제 성공');
-              location.href = '/contract/list/1';
+              location.href = '/contract/detail/<%=contract.id%>';
             }else{
-              alert('게시물 작성 실패');
+              alert('게시물 수정 실패');
             }
           },
           error: function (xhr, status, error) {
             console.log(error);
           }
         })
+      })
+
+      $('#cancel').on('click', function () {
+        history.back();
       })
     })
   </script>
