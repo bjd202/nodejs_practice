@@ -84,15 +84,42 @@
                 <form id="company_form" method="post" action="/contract/create" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="input-1">회사 이름</label>
-                    <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company" placeholder="회사 이름" >
+                    <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company" placeholder="회사 이름" form="form">
                     </div>
                     <div class="form-group">
                     <label for="input-1">회사 전화번호</label>
-                    <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number" name="company_number" placeholder="회사 전화번호" >
+                    <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number" name="company_number" placeholder="회사 전화번호" form="form">
                     </div>
                     <div class="form-group">
                     <label for="input-1">회사 위치</label>
-                    <input type="text" value="<%=contract.company_location%>" class="form-control" id="company_location" name="company_location" placeholder="회사 위치" >
+                    <input type="text" value="<%=contract.company_location%>" class="form-control" id="company_location" name="company_location" placeholder="회사 위치" form="form">
+                    </div>
+                    <div class="form-group">
+                      <form id="employee_form" method="POST">
+                        <label for="input-1">담당 직원 <button type="button" id="add_employee" class="btn btn-light px-10"><i class="zmdi zmdi-account-add"></i>추가</button></label>
+                        <table id="employee_table" class="table">
+                          <thead>
+                            <tr>
+                              <th>직급</th>
+                              <th>이름</th>
+                              <th>전화번호</th>
+                            </tr>
+                          </thead>
+                          
+                          <tbody id="employee_tbody">
+                            <% for(var i=0; i<contract.company_employees.length; i++){ %>
+                              <tr>
+                                <td style="display: none;"><input type="hidden" class="form-control" value="<%=contract.company_employees[i]._id%>" name="employee_id" form="form"></td>
+                                <td><input type="text" class="form-control" value="<%=contract.company_employees[i].employee_rank%>" name="employee_rank" placeholder="직급" form="form"></td>
+                                <td><input type="text" class="form-control" value="<%=contract.company_employees[i].employee_name%>" name="employee_name" placeholder="직급" form="form"></td>
+                                <td><input type="text" class="form-control" value="<%=contract.company_employees[i].employee_number%>" name="employee_number" placeholder="직급" form="form"></td>
+                                <td><button class="btn btn-light px-10" name="delete_employee">삭제</td>
+                              </tr>
+                            <% } %>
+                          </tbody>
+                          
+                        </table>
+                      </form>
                     </div>
                 </form>
               </div>
@@ -209,6 +236,23 @@
       $('#cancel').on('click', function () {
         history.back();
       })
+
+      $(document).on('click', '#add_employee', function () {
+      $('#employee_tbody').append('<tr>' +
+        '<td><input type="text" class="form-control" name="employee_rank" placeholder="직급" form="form"></td>' +
+        '<td><input type="text" class="form-control" name="employee_name" placeholder="이름" form="form"></td>' +
+        '<td><input type="text" class="form-control" name="employee_number" placeholder="전화번호" form="form"></td>' +
+        '<td><button class="btn btn-light px-10" name="delete_employee">삭제</td>' +
+        '</tr>'
+      )
+
+      index++;
+    })
+
+      $(document).on('click', 'button[name=delete_employee]', function () {
+      var tr = $(this).parent().parent()
+      tr.remove();
+    })
     })
   </script>
 </body>

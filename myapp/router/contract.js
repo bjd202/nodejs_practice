@@ -155,4 +155,80 @@ router.get('/update/:id', function (req, res) {
     })
 })
 
+router.post('/update/:id', function (req, res) {
+    console.log('post update contract');
+
+    console.dir(req.body);
+
+    var id = req.params.id;
+    var name = req.body.name;
+    var category = req.body.category;
+    var company = req.body.company;
+    var company_number = req.body.company_number;
+    var company_location = req.body.company_location;
+    var desc = req.body.desc;
+    var author = req.session.username;
+    var contract_dt = req.body.contract_dt;
+    var contract_start_dt = req.body.contract_start_dt;
+    var contract_end_dt = req.body.contract_end_dt;
+    var files = req.files;
+    var employee_rank = req.body.employee_rank;
+    var employee_name = req.body.employee_name;
+    var employee_number = req.body.employee_number;
+    
+    var contract = new ContractSchema();
+
+    contract.name = name;
+    contract.category = category;
+    contract.company = company;
+    contract.company_number = company_number;
+    contract.company_location = company_location;
+    contract.desc = desc;
+    contract.contract_dt = contract_dt;
+    contract.contract_start_dt = contract_start_dt;
+    contract.contract_end_dt = contract_end_dt;
+
+    if(typeof files != 'undefined'){
+        for(var i=0; i<files.length; i++){
+            var obj = {};
+
+            obj.filename = files[i].filename;
+            obj.originalname = files[i].originalname;
+            obj.path = files[i].path;
+            obj.size = files[i].size;
+            obj.mimetype = files[i].mimetype;
+
+            contract.files.push(obj);
+        }
+    }
+
+    for (let i = 0; i < employee_rank.length; i++) {
+        var obj = {};
+
+        obj.employee_name = employee_name[i];
+        obj.employee_number = employee_number[i];
+        obj.employee_rank = employee_rank[i];
+
+        contract.company_employees.push(obj);
+    }
+
+    ContractSchema.updateOne({_id : id, author : author},
+        {$set : {name : name, category : category, company : company, company_number : company_number, company_location : company_location, company_employees : contract.company_employees,
+        desc : desc, files : contract.files, update_at : new Date(), contract_dt : contract_dt, contract_start_dt : contract_start_dt, contract_end_dt : contract_end_dt}},
+        function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            res.json({result : 1});
+        }else{
+            console.log('update 실패');
+            res.json({result : 0});
+        }
+    })
+
+})
+
 module.exports = router;
