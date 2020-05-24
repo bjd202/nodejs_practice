@@ -16,4 +16,81 @@
   <script src="/assets/plugins/Chart.js/Chart.min.js"></script>
   <script src="/assets/js/moment.min.js"></script>
  
-  
+  <script>
+    $(document).ready(function () {
+      setInterval(function () {
+        var now = new Date();
+
+        $('#now').text(moment(now).format('YYYY-MM-DD HH:mm:ss'));
+      }, 1000)
+
+      $.ajax({ 
+          url: "/user/punch_in_out_check",
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {
+            console.dir(result);
+
+            var len = result.punch_in_out.length-1;
+
+            if(result.punch_in_out[len].category == "punch_in"){
+              $('#punch_in').html(result.punch_in_out[len].time + '<br>출근');
+              $('#punch_in').attr('disabled', 'disabled');
+            }else{
+              
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+
+      $('#punch_in').on('click', function () {
+        var punch_in_time = $('#now').text();
+        $(this).html(punch_in_time + '<br>출근');
+        $(this).attr('disabled', 'disabled');
+
+        $.ajax({ 
+          url: "/user/punch_in_out",
+          data: {category : 'punch_in'},
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {
+            console.dir(result);
+            if(result.result == 1){
+              console.log('출근 성공');
+            }else{
+              console.log('출근 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+      })
+
+      $('#punch_out').on('click', function () {
+        var punch_out_time = $('#now').text();
+        $(this).html(punch_out_time + '<br>퇴근');
+        $(this).attr('disabled', 'disabled');
+
+        $.ajax({ 
+          url: "/user/punch_in_out",
+          data: {category : 'punch_out'},
+          method: 'post',
+          dataType: 'json',
+          success: function (result) {
+            console.dir(result);
+            if(result.result == 1){
+              console.log('퇴근 성공');
+            }else{
+              console.log('퇴근 실패');
+            }
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          }
+        })
+      })
+     })
+  </script>

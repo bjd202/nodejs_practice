@@ -1,98 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <meta name="description" content=""/>
-  <meta name="author" content=""/>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
   <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
   <%- include('common_css') -%>
-  
+
 </head>
 
 <body class="bg-theme bg-theme1">
- 
-<%- include('sidebar_left') -%>
 
-<%- include('header') -%>
+  <%- include('sidebar_left') -%>
 
-<div class="clearfix"></div>
+  <%- include('header') -%>
 
-<div class="content-wrapper">
+  <div class="clearfix"></div>
+
+  <div class="content-wrapper">
     <div class="container-fluid">
 
-    <div class="row mt-3">
-      <div class="col-lg-12">
-         <div class="card">
-           <div class="card-body">
-            <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
-              <li class="nav-item">
-                <a href="javascript:void();" data-target="#contract" data-toggle="pill" class="nav-link active"><span class="">계약 정보</span></a>
-              </li>
-              <li class="nav-item">
-                <a href="javascript:void();" data-target="#company" data-toggle="pill" class="nav-link"></i> <span class="">계약 회사 정보</span></a>
-              </li>
-            </ul>
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#contract" data-toggle="pill" class="nav-link active"><span
+                      class="">계약 정보</span></a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#company" data-toggle="pill" class="nav-link"></i> <span
+                      class="">계약 회사 정보</span></a>
+                </li>
+              </ul>
 
-            <div class="tab-content">
-              <div class="tab-pane active" id="contract">
-                <div class="card-title">계약 정보</div>
-                <hr>
-                <form id="form" method="post" action="/contract/create" enctype="multipart/form-data">
-                  <div class="form-group">
-                  <label for="input-1">계약 이름</label>
-                  <input type="text" value="<%=contract.name%>" class="form-control" id="name" name="name" placeholder="계약 이름" readonly>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-2">내용</label>
-                  <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="내용" readonly><%=contract.desc%></textarea>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-3">계약 종류</label>
-                  <select class="form-control" name="category" id="category" form="form">
-                    <option value="계약1" selected>계약1</option>
-                    <option value="계약2">계약2</option>
-                  </select>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-1">계약일</label>
-                  <input type="date" value="<%=moment(contract.contract_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_dt" name="contract_dt" placeholder="계약일" readonly>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-1">계약 시작일</label>
-                  <input type="date" value="<%=moment(contract.contract_start_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_start_dt" name="contract_start_dt" placeholder="계약 시작일" readonly>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-1">계약 종료일</label>
-                  <input type="date" value="<%=moment(contract.contract_end_dt).format('YYYY-MM-DD')%>" class="form-control" id="contract_end_dt" name="contract_end_dt" placeholder="계약 종료일" readonly>
-                  </div>
-                  <div class="form-group">
-                  <label for="input-3">파일첨부</label>
-                  <% for(var i=0; i<contract.files.length; i++) { %>
-                    <a href="/contract/download/<%=contract._id%>/<%=contract.files[i]._id%>"><%=contract.files[i].originalname%>(<%=(contract.files[i].size/1024/1024).toFixed(2)%>MB)</a> <br>
-                  <% } %>
-                  </div>
-                  
-                  
-                </form>
-              </div>
-              <div class="tab-pane" id="company">
-                <div class="card-title">계약 회사 정보</div>
-                <hr>
-
-                <form id="company_form" method="post" action="/contract/create" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="input-1">회사 이름</label>
-                    <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company" placeholder="회사 이름" readonly>
+              <div class="tab-content">
+                <div class="tab-pane active" id="contract">
+                  <div class="card-title">계약 정보</div>
+                  <hr>
+                  <form id="form" method="post" action="/contract/create" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="input-1">계약 이름</label>
+                      <input type="text" value="<%=contract.name%>" class="form-control" id="name" name="name"
+                        placeholder="계약 이름" readonly>
                     </div>
                     <div class="form-group">
-                    <label for="input-1">회사 전화번호</label>
-                    <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number" name="company_number" placeholder="회사 전화번호" readonly>
+                      <label for="input-2">내용</label>
+                      <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="내용"
+                        readonly><%=contract.desc%></textarea>
                     </div>
                     <div class="form-group">
-                    <label for="input-1">회사 위치</label>
-                    <input type="text" value="<%=contract.company_location%>" class="form-control" id="company_location" name="company_location" placeholder="회사 위치" readonly>
+                      <label for="input-3">계약 종류</label>
+                      <select class="form-control" name="category" id="category" form="form">
+                        <option value="계약1" selected>계약1</option>
+                        <option value="계약2">계약2</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">계약일</label>
+                      <input type="date" value="<%=moment(contract.contract_dt).format('YYYY-MM-DD')%>"
+                        class="form-control" id="contract_dt" name="contract_dt" placeholder="계약일" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">계약 시작일</label>
+                      <input type="date" value="<%=moment(contract.contract_start_dt).format('YYYY-MM-DD')%>"
+                        class="form-control" id="contract_start_dt" name="contract_start_dt" placeholder="계약 시작일"
+                        readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">계약 종료일</label>
+                      <input type="date" value="<%=moment(contract.contract_end_dt).format('YYYY-MM-DD')%>"
+                        class="form-control" id="contract_end_dt" name="contract_end_dt" placeholder="계약 종료일" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-3">파일첨부</label>
+                      <% if(contract.files != null){ %>
+                      <% for(var i=0; i<contract.files.length; i++) { %>
+                      <a
+                        href="/contract/download/<%=contract._id%>/<%=contract.files[i]._id%>"><%=contract.files[i].originalname%>(<%=(contract.files[i].size/1024/1024).toFixed(2)%>MB)</a>
+                      <br>
+                      <% } %>
+                      <% } %>
+                    </div>
+
+
+                  </form>
+                </div>
+                <div class="tab-pane" id="company">
+                  <div class="card-title">계약 회사 정보</div>
+                  <hr>
+
+                  <form id="company_form" method="post" action="/contract/create" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="input-1">회사 이름</label>
+                      <input type="text" value="<%=contract.company%>" class="form-control" id="company" name="company"
+                        placeholder="회사 이름" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">회사 전화번호</label>
+                      <input type="text" value="<%=contract.company_number%>" class="form-control" id="company_number"
+                        name="company_number" placeholder="회사 전화번호" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">회사 위치</label>
+                      <input type="text" value="<%=contract.company_location%>" class="form-control"
+                        id="company_location" name="company_location" placeholder="회사 위치" readonly>
                     </div>
                     <div class="form-group">
                       <form id="employee_form" method="POST">
@@ -105,62 +121,63 @@
                               <th>전화번호</th>
                             </tr>
                           </thead>
-                          
+
                           <tbody id="employee_tbody">
                             <% for(var i=0; i<contract.company_employees.length; i++){ %>
-                              <tr>
-                                <td><%=contract.company_employees[i].employee_rank%></td>
-                                <td><%=contract.company_employees[i].employee_name%></td>
-                                <td><%=contract.company_employees[i].employee_number%></td>
-                              </tr>
+                            <tr>
+                              <td><%=contract.company_employees[i].employee_rank%></td>
+                              <td><%=contract.company_employees[i].employee_name%></td>
+                              <td><%=contract.company_employees[i].employee_number%></td>
+                            </tr>
                             <% } %>
                           </tbody>
-                          
+
                         </table>
                       </form>
                     </div>
-                </form>
+                  </form>
+                </div>
+
+                <div class="form-group">
+                  <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
+                  <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
+                  <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
+                </div>
               </div>
 
-              <div class="form-group">
-                <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
-                <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
-                <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
-                </div>
             </div>
-            
+
+
           </div>
+        </div>
 
-           
-         </div>
       </div>
+      <!--End Row-->
 
-    </div><!--End Row-->
-
-	<!--start overlay-->
-		  <div class="overlay toggle-menu"></div>
-		<!--end overlay-->
+      <!--start overlay-->
+      <div class="overlay toggle-menu"></div>
+      <!--end overlay-->
 
     </div>
     <!-- End container-fluid-->
-    
-   </div>
-   <!--Start Back To Top Button-->
-    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-    <!--End Back To Top Button-->
-	
-	<!--Start footer-->
-	<footer class="footer">
-      <div class="container">
-        <div class="text-center">
-          Copyright © 2018 Dashtreme Admin
-        </div>
+
+  </div>
+  <!--Start Back To Top Button-->
+  <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+  <!--End Back To Top Button-->
+
+  <!--Start footer-->
+  <footer class="footer">
+    <div class="container">
+      <div class="text-center">
+        Copyright © 2018 Dashtreme Admin
       </div>
-    </footer>
-	<!--End footer-->
-	
+    </div>
+  </footer>
+  <!--End footer-->
+
   <!--start color switcher-->
-   <div class="right-sidebar">
+  <div class="right-sidebar">
     <div class="switcher-icon">
       <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
     </div>
@@ -168,7 +185,7 @@
 
       <p class="mb-0">Gaussion Texture</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme1"></li>
         <li id="theme2"></li>
@@ -180,7 +197,7 @@
 
       <p class="mb-0">Gradient Background</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme7"></li>
         <li id="theme8"></li>
@@ -188,25 +205,26 @@
         <li id="theme10"></li>
         <li id="theme11"></li>
         <li id="theme12"></li>
-		<li id="theme13"></li>
+        <li id="theme13"></li>
         <li id="theme14"></li>
         <li id="theme15"></li>
       </ul>
-      
-     </div>
-   </div>
+
+    </div>
+  </div>
   <!--end color switcher-->
-   
-  </div><!--End wrapper-->
+
+  </div>
+  <!--End wrapper-->
 
   <%- include('common_script') -%>
-  
+
   <script>
     $(document).ready(function () {
 
       $("#category").val("<%=contract.category%>").attr("selected", "selected");
       $("#category option").not(":selected").attr("disabled", "disabled");
-      
+
 
       $("#list").on('click', function () {
         window.location = '/contract/list/1';
@@ -217,16 +235,16 @@
       })
 
       $('#delete').on('click', function () {
-        $.ajax({ 
+        $.ajax({
           url: "/contract/delete/" + '<%=contract._id%>',
           method: 'post',
           dataType: 'json',
           success: function (result) {
             console.dir(result);
-            if(result.result == 1){
+            if (result.result == 1) {
               alert('게시물 삭제 성공');
               location.href = '/contract/list/1';
-            }else{
+            } else {
               alert('게시물 작성 실패');
             }
           },
@@ -238,4 +256,5 @@
     })
   </script>
 </body>
+
 </html>

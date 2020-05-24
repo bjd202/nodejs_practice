@@ -31,6 +31,7 @@ var board = require('./router/board');
 var admin = require('./router/admin');
 var item = require('./router/item');
 var contract = require('./router/contract');
+var user = require('./router/user');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -92,6 +93,17 @@ app.use('/contract', function (req, res, next) {
 
     next();
 }, contract)
+
+app.use('/user', function (req, res, next) {
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    next();
+}, user)
 
 
 var server = http.createServer(app).listen(process.env.PORT || port, function(){

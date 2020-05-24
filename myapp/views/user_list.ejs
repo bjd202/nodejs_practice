@@ -45,7 +45,8 @@
                   <thead>
                       <tr>
                         <th scope="col">순서</th>
-                        <th scope="col">회원이름</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">아이디</th>
                         <th scope="col">가입일</th>
                       </tr>
                   </thead>
@@ -53,6 +54,7 @@
                     <% for(var i=0; i<user.docs.length; i++){ %>
                       <tr>
                         <td scope="row"><%=i+1%></td>
+                        <td><%=user.docs[i].name%></td>
                         <td class="user_row" data-href="/admin/user/detail/<%=user.docs[i]._id%>"><%=user.docs[i].username%></td>
                         <td><%=user.docs[i].create_at.toLocaleString()%></td>
                       </tr>

@@ -1,83 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <meta name="description" content=""/>
-  <meta name="author" content=""/>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
   <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
   <%- include('common_css') -%>
-  
+
+  <!-- fullcalender -->
+  <link href="/assets/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-theme bg-theme1">
- 
-<%- include('sidebar_left') -%>
 
-<%- include('header') -%>
+  <%- include('sidebar_left') -%>
 
-<div class="clearfix"></div>
+  <%- include('header') -%>
 
-<div class="content-wrapper">
+  <div class="clearfix"></div>
+
+  <div class="content-wrapper">
     <div class="container-fluid">
 
-    <div class="row mt-3">
-      <div class="col-lg-12">
-         <div class="card">
-           <div class="card-body">
-           <div class="card-title">상세보기</div>
-           <hr>
-          <form id="form" method="post">
-           <div class="form-group">
-            <label for="input-1">유저이름</label>
-            <input type="text" value="<%=user.username%>" class="form-control" id="username" name="username" readonly>
-           </div>
-           <div class="form-group">
-            <label for="input-2">이메일</label>
-            <input type="text" value="<%=user.email%>" class="form-control" id="email" name="email" readonly>
-           </div>
-           <div class="form-group">
-            <label for="input-3">가입일</label>
-            <input type="text" value="<%=user.create_at.toLocaleString()%>" class="form-control" id="create_at" name="create_at" readonly>
-           </div>
-           
-           <div class="form-group">
-            <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
-            <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
-            <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#detail" data-toggle="pill" class="nav-link active"><span
+                      class="">상세보기</span></a>
+                </li>
+                <li class="nav-item">
+                  <a href="javascript:void();" data-target="#punch_in_out" data-toggle="pill" class="nav-link"></i> <span
+                      class="">근태정보</span></a>
+                </li>
+              </ul>
+
+              <div class="tab-content">
+                <div class="tab-pane active" id="detail">
+                  <div class="card-title">상세보기</div>
+                  <hr>
+                  <form id="form" method="post">
+                    <div class="form-group">
+                      <label for="input-1">이름</label>
+                      <input type="text" value="<%=user.name%>" class="form-control" id="name" name="name" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">아이디</label>
+                      <input type="text" value="<%=user.username%>" class="form-control" id="username" name="username"
+                        readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-2">이메일</label>
+                      <input type="text" value="<%=user.email%>" class="form-control" id="email" name="email" readonly>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-3">가입일</label>
+                      <input type="text" value="<%=user.create_at.toLocaleString()%>" class="form-control"
+                        id="create_at" name="create_at" readonly>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="tab-pane" id="punch_in_out">
+                  <div class="card-title">근태정보</div>
+                  <hr>
+
+                  <div id="calendar"></div>
+                </div>
+
+                <div class="form-group">
+                  <button type="button" id="list" class="btn btn-light px-5"> 목록</button>
+                  <button type="button" id="update" class="btn btn-light px-5"> 수정</button>
+                  <button type="button" id="delete" class="btn btn-light px-5"> 삭제</button>
+                </div>
+              </div>
+            </div>
           </div>
-          </form>
-         </div>
-         </div>
+        </div>
+
       </div>
+      <!--End Row-->
 
-    </div><!--End Row-->
-
-	<!--start overlay-->
-		  <div class="overlay toggle-menu"></div>
-		<!--end overlay-->
+      <!--start overlay-->
+      <div class="overlay toggle-menu"></div>
+      <!--end overlay-->
 
     </div>
     <!-- End container-fluid-->
-    
-   </div>
-   <!--Start Back To Top Button-->
-    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
-    <!--End Back To Top Button-->
-	
-	<!--Start footer-->
-	<footer class="footer">
-      <div class="container">
-        <div class="text-center">
-          Copyright © 2018 Dashtreme Admin
-        </div>
+
+  </div>
+  <!--Start Back To Top Button-->
+  <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+  <!--End Back To Top Button-->
+
+  <!--Start footer-->
+  <footer class="footer">
+    <div class="container">
+      <div class="text-center">
+        Copyright © 2018 Dashtreme Admin
       </div>
-    </footer>
-	<!--End footer-->
-	
+    </div>
+  </footer>
+  <!--End footer-->
+
   <!--start color switcher-->
-   <div class="right-sidebar">
+  <div class="right-sidebar">
     <div class="switcher-icon">
       <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
     </div>
@@ -85,7 +118,7 @@
 
       <p class="mb-0">Gaussion Texture</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme1"></li>
         <li id="theme2"></li>
@@ -97,7 +130,7 @@
 
       <p class="mb-0">Gradient Background</p>
       <hr>
-      
+
       <ul class="switcher">
         <li id="theme7"></li>
         <li id="theme8"></li>
@@ -105,19 +138,24 @@
         <li id="theme10"></li>
         <li id="theme11"></li>
         <li id="theme12"></li>
-		<li id="theme13"></li>
+        <li id="theme13"></li>
         <li id="theme14"></li>
         <li id="theme15"></li>
       </ul>
-      
-     </div>
-   </div>
+
+    </div>
+  </div>
   <!--end color switcher-->
-   
-  </div><!--End wrapper-->
+
+  </div>
+  <!--End wrapper-->
 
   <%- include('common_script') -%>
-  
+
+  <!-- Full Calendar -->
+  <script src='/assets/plugins/fullcalendar/js/moment.min.js'></script>
+  <script src='/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+
   <script>
     $(document).ready(function () {
       $("#list").on('click', function () {
@@ -129,16 +167,16 @@
       })
 
       $('#delete').on('click', function () {
-        $.ajax({ 
+        $.ajax({
           url: "/admin/user/delete/" + '<%=user._id%>',
           method: 'post',
           dataType: 'json',
           success: function (result) {
             console.dir(result);
-            if(result.result == 1){
+            if (result.result == 1) {
               alert('게시물 삭제 성공');
               location.href = '/admin/user/list/1';
-            }else{
+            } else {
               alert('게시물 작성 실패');
             }
           },
@@ -151,16 +189,17 @@
       $("#create").on('click', function () {
         var data = $("#form").serialize();
 
-        $.ajax({ 
+        $.ajax({
           url: "/admin/user/create",
           data: data,
           method: 'post',
           dataType: 'json',
-          success: function (result) {s
+          success: function (result) {
+            s
             console.dir(result);
-            if(result.result == 1){
+            if (result.result == 1) {
               location.href = '/admin/user/list/1';
-            }else{
+            } else {
               alert('게시물 작성 실패');
             }
           },
@@ -169,7 +208,14 @@
           }
         })
       })
+
+      $('#calendar').fullCalendar({
+        
+      })
     })
   </script>
+
+   
 </body>
+
 </html>
