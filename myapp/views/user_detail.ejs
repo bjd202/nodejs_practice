@@ -209,9 +209,38 @@
         })
       })
 
-      $('#calendar').fullCalendar({
-        
+      //calendar init
+      $.ajax({ 
+        url: "/user/punch_in_out_check",
+        method: 'post',
+        dataType: 'json',
+        success: function (result) {
+          console.dir(result);
+
+          var len = result.punch_in_out.length;
+          var punch_in_out = result.punch_in_out;
+
+          var events = [];
+
+          for (var i = 0; i < len; i++) {
+            var obj = {
+              title : punch_in_out[i].category == 'punch_in' ? '출근' : '퇴근',
+              start : punch_in_out[i].time.replace(' ', 'T')
+            }
+
+            events.push(obj);
+          }
+
+          $('#calendar').fullCalendar({
+            events : events
+          })
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+        }
       })
+
+      
     })
   </script>
 

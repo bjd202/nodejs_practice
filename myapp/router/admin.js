@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var UserSchema = require('../schemas/UserSchema');
+var RequestSchema = require('../schemas/RequestSchema')
 
 router.get('/user/list/:page', function (req, res) {
     console.log('get user list');
@@ -44,6 +45,33 @@ router.get('/user/detail/:id', function (req, res) {
         if(result){
             console.dir(result);
             res.render('user_detail', {user : result});
+        }else{
+            console.log('데이터 없음');
+        }
+    })
+})
+
+router.get('/request/list/:page', function (req, res) {
+    console.log('get request list');
+
+    var page = req.params.page;
+
+    var options = {
+        page : page,
+        limit : 10,
+        sort : {create_at : -1}
+    }
+
+    var aggregate = RequestSchema.aggregate();
+    RequestSchema.aggregatePaginate(aggregate, options, function (err, result) {
+        if(err){
+            console.error(err);
+            return;
+        }
+
+        if(result){
+            console.log(result);
+            res.render('admin_request_list', {request : result});
         }else{
             console.log('데이터 없음');
         }

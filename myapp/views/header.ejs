@@ -51,9 +51,9 @@
         <li class="dropdown-divider"></li>
         <li class="dropdown-item"><i class="icon-envelope mr-2"></i> Inbox</li>
         <li class="dropdown-divider"></li>
-        <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
-        <li class="dropdown-divider"></li>
         <% if(username == 'admin') { %>
+          <li class="dropdown-item"><i class="icon-wallet mr-2"></i><a href="/admin/request/list/1">요청관리</a></li>
+          <li class="dropdown-divider"></li>
           <li class="dropdown-item"><i class="icon-settings mr-2"></i><a href="/admin/user/list/1">직원관리</a></li>
           <li class="dropdown-divider"></li>
         <% } %>
