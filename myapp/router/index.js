@@ -54,10 +54,12 @@ router.post('/logincheck', function (req, res) {
 
             if(dbPassword == hashPassword){
                 req.session.username = username;
+                req.session.name = result.name;
                 res.json({result : 1});
                 return;
             }else{
-                req.session.username = null;
+                req.session.username = undefined;
+                req.session.name = undefined;
                 res.json({result : 0});
                 return;
             }

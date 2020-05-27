@@ -32,6 +32,7 @@ var admin = require('./router/admin');
 var item = require('./router/item');
 var contract = require('./router/contract');
 var user = require('./router/user');
+var request = require('./router/request');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,8 +43,10 @@ app.use(express.urlencoded({extended : false}));
 app.use(function (req, res, next) {
     if(req.session.username){
         res.locals.username = req.session.username;
+        res.locals.name = req.session.name;
     }else{
         res.locals.username = undefined;
+        res.locals.name = undefined;
     }
 
     next();
@@ -104,6 +107,17 @@ app.use('/user', function (req, res, next) {
 
     next();
 }, user)
+
+app.use('/request', function (req, res, next) {
+    console.log('session username = ' + req.session.username);
+
+    if(typeof req.session.username == 'undefined'){
+        res.redirect('/login');
+        return;
+    }
+
+    next();
+}, request)
 
 
 var server = http.createServer(app).listen(process.env.PORT || port, function(){

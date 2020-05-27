@@ -12,7 +12,7 @@ var Schema = new mongoose.Schema({
     end_dt : {type : Date},
     create_at : {type : Date, default : Date.now()},
     update_at : {type : Date, default : Date.now()},
-    accept_or_not : {type : String}
+    accept_or_not : {type : Number, default : 0}
 });
 
 Schema.plugin(aggregatePaginate);
