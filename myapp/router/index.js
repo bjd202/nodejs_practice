@@ -78,6 +78,8 @@ router.get('/register', function (req, res) {
 
 router.post('/register', function (req, res) {
     console.log('post register 호출');
+
+    var name = req.body.name;
     var username = req.body.username || req.query.username;
     var inputPassword = req.body.password || req.query.password;
     var email = req.body.email || req.query.email;
@@ -101,6 +103,7 @@ router.post('/register', function (req, res) {
         
             var user = new UserSchema();
         
+            user.name = name;
             user.username = username;
             console.log(user.username);
             user.password = hashPassword;

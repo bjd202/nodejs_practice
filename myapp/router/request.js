@@ -63,6 +63,7 @@ router.post('/create', function (req, res) {
     request.save(function (err) {
         if(err){
             console.error(err);
+            res.json({result : 0});
             return;
         }
     })

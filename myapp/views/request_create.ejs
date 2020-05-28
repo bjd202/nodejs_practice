@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Dashtreme Admin - Free Dashboard for Bootstrap 4 by Codervent</title>
+  <%- include('common_css') -%>
+
+</head>
+
+<body class="bg-theme bg-theme1">
+
+  <%- include('sidebar_left') -%>
+
+  <%- include('header') -%>
+
+  <div class="clearfix"></div>
+
+  <div class="content-wrapper">
+    <div class="container-fluid">
+
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane active" id="contract">
+                  <div class="card-title">새 요청</div>
+                  <hr>
+                  <form id="form" method="post" action="/request/create">
+                    <div class="form-group">
+                      <label for="input-1">제목</label>
+                      <input type="text" class="form-control" id="title" name="title" placeholder="제목">
+                    </div>
+                    <div class="form-group">
+                      <label for="input-2">내용</label>
+                      <textarea rows="15" class="form-control" id="desc" name="desc" placeholder="내용"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-3">종류</label>
+                      <select class="form-control" name="category" id="category" form="form">
+                        <option value="휴가" selected>휴가</option>
+                        <option value="외근">외근</option>
+                        <option value="기타">기타</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">시작일</label>
+                      <input type="date" class="form-control" id="start_dt" name="start_dt"
+                        placeholder="시작일">
+                    </div>
+                    <div class="form-group">
+                      <label for="input-1">종료일</label>
+                      <input type="date" class="form-control" id="end_dt" name="end_dt"
+                        placeholder="종료일">
+                    </div>
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <button type="button" id="create" class="btn btn-light px-5"> 작성</button>
+                <button type="button" id="cancel" class="btn btn-light px-5"> 취소</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!--End Row-->
+
+      <!--start overlay-->
+      <div class="overlay toggle-menu"></div>
+      <!--end overlay-->
+
+    </div>
+    <!-- End container-fluid-->
+
+  </div>
+  <!--Start Back To Top Button-->
+  <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+  <!--End Back To Top Button-->
+
+  <!--Start footer-->
+  <footer class="footer">
+    <div class="container">
+      <div class="text-center">
+        Copyright © 2018 Dashtreme Admin
+      </div>
+    </div>
+  </footer>
+  <!--End footer-->
+
+  <!--start color switcher-->
+  <div class="right-sidebar">
+    <div class="switcher-icon">
+      <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+    </div>
+    <div class="right-sidebar-content">
+
+      <p class="mb-0">Gaussion Texture</p>
+      <hr>
+
+      <ul class="switcher">
+        <li id="theme1"></li>
+        <li id="theme2"></li>
+        <li id="theme3"></li>
+        <li id="theme4"></li>
+        <li id="theme5"></li>
+        <li id="theme6"></li>
+      </ul>
+
+      <p class="mb-0">Gradient Background</p>
+      <hr>
+
+      <ul class="switcher">
+        <li id="theme7"></li>
+        <li id="theme8"></li>
+        <li id="theme9"></li>
+        <li id="theme10"></li>
+        <li id="theme11"></li>
+        <li id="theme12"></li>
+        <li id="theme13"></li>
+        <li id="theme14"></li>
+        <li id="theme15"></li>
+      </ul>
+
+    </div>
+  </div>
+  <!--end color switcher-->
+
+  </div>
+  <!--End wrapper-->
+
+  <%- include('common_script') -%>
+
+  <script>
+    var index = 0;
+
+    $(document).on('click', "#create", function () {
+      var formData = $("#form").serialize();
+      //var formData = new FormData($("#form")[0]);
+
+      console.log(formData);
+
+      $.ajax({
+        url: "/request/create",
+        data: formData,
+        method: 'post',
+        dataType: 'json',
+        success: function (result) {
+          console.dir(result);
+          if (result.result == 1) {
+            location.href = '/request/list/1';
+          } else {
+            alert('요청 작성 실패');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
