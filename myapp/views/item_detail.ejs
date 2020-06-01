@@ -312,16 +312,16 @@
             console.dir(result);
             if(result.result == 1){
               console.log('검색 성공');
-              console.dir(result);
               right_table_tbody.empty();
 
-              for (let index = 0; index < result.searched_list.length; index++) {
+              for (var i = 0; i < result.searched_list.length; i++) {
+                console.log(result.searched_list[i].category);
                 right_table_tbody.append('<tr>' + 
-                  '<td>' + moment(result.searched_list[index].date).format('YYYY-MM-DD') + '</td>' +
-                  '<td>' + result.searched_list[index].category == 'in' ? '입고' : '출고' + '</td>' +
-                  '<td>' + result.searched_list[index].number + '</td>' +
-                  '<td>' + result.searched_list[index].desc + '</td>' +
-                  '<tr>'
+                  '<td>' + moment(result.searched_list[i].date).format('YYYY-MM-DD') + '</td>' +
+                  '<td>' + (result.searched_list[i].category == 'in' ? '입고' : '출고') + '</td>' +
+                  '<td>' + result.searched_list[i].number + '</td>' +
+                  '<td>' + result.searched_list[i].desc + '</td>' +
+                  '</tr>'
                 );
               }
 
