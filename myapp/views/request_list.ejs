@@ -171,37 +171,50 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="background-color: mediumslateblue;">
         <div class="modal-header">
-          <h5 class="modal-title" id="modal_title">입&출고 기록</h5>
+          <h5 class="modal-title" id="modal_title">요청 상세보기</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form id="inout_modal_form" action="" method="post">
+          <form id="detail_modal_form" action="" method="post">
             <div>
-              <label for="input-1">구분</label>
-              <select class="form-control" name="category" form="inout_modal_form">
-                <option value="in">입고</option>
-                <option value="out">출고</option>
+              <label for="input-1">요청자 아이디</label>
+              <input class="form-control" type="text" name="username" value="아이디" readonly>
+            </div>
+            <div>
+              <label for="input-1">요청자 이름</label>
+              <input class="form-control" type="text" name="name" value="이름" readonly>
+            </div>
+            <div>
+              <label for="input-1">내용</label>
+              <textarea class="form-control" name="desc" cols="" rows="10" readonly>내용</textarea>
+            </div>
+            <div>
+              <label for="input-1">종류</label>
+              <input class="form-control" type="text" name="category" value="종류" readonly>
+            </div>
+            <div class="form-group">
+              <label for="input-1">시작일</label>
+              <input class="form-control" type="date" name="start_dt">
+            </div>
+            <div class="form-group">
+              <label for="input-1">종료일</label>
+              <input class="form-control" type="date" name="end_dt">
+            </div>
+            <div>
+              <label for="input-1">상태</label>
+              <select class="form-control" name="accept_or_not" form="detail_modal_form">
+                <option value="0" selected>대기</option>
+                <option value="1">수락</option>
+                <option value="2">거절</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="input-1">수량</label>
-              <input class="form-control" type="number" name="number">
-            </div>
-            <div class="form-group">
-              <label for="input-1">날짜</label>
-              <input class="form-control" type="date" name="date">
-            </div>
-            <div class="form-group">
-              <label for="input-2">비고</label>
-              <textarea rows="5" class="form-control" name="desc"></textarea>
-             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-          <button id="inout_modal_save" type="button" class="btn btn-primary">저장</button>
+          <button id="detail_modal_save" type="button" class="btn btn-primary">저장</button>
         </div>
       </div>
     </div>
