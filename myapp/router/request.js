@@ -71,4 +71,22 @@ router.post('/create', function (req, res) {
     res.json({result : 1});
 })
 
+router.post('/detail/modal', function (req, res) {
+    var id = req.body.request_id;
+
+    RequestSchema.findById(id, function (err, result) {
+        if(err){
+            console.error(err);
+            res.json({result : 0});
+            return;
+        }
+
+        if(result){
+            console.dir(result);
+            res.json({result : 1, detail : result});
+            return;
+        }
+    })
+})
+
 module.exports = router;

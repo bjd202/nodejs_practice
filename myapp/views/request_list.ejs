@@ -56,13 +56,13 @@
                   <tbody>
                     <% for(var i=0; i<request.docs.length; i++){ %>
                       <tr>
-                        <td style="display: none;"><input type="hidden" id="request_id" value="<%=request.docs[i]._id%>"></td>
+                        <td style="display: none;"><input type="hidden" class="request_id" value="<%=request.docs[i]._id%>"></td>
                         <td scope="row"><%=i+1%></td>
                         <td class="request_row" data-href="/request/detail/<%=request.docs[i]._id%>"><%=request.docs[i].title%></td>
                         <td><%=request.docs[i].category%></td>
                         <td><%=request.docs[i].username%></td>
                         <td><%=request.docs[i].name%></td>
-                        <td><button type="button" id="detail" class="btn btn-light px-3" data-toggle="modal" data-target="#detail_modal">상세보기</button></td>
+                        <td><button type="button" class="btn btn-light px-3 detail" data-toggle="modal" data-target="#detail_modal">상세보기</button></td>
                         <td><button type="button" class="btn btn-light px-3">대기</button></td>
                       </tr>
                     <% } %>
@@ -171,7 +171,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="background-color: mediumslateblue;">
         <div class="modal-header">
-          <h5 class="modal-title" id="modal_title">요청 상세보기</h5>
+          <h5 class="modal-title">요청 상세보기</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -180,31 +180,39 @@
           <form id="detail_modal_form" action="" method="post">
             <div>
               <label for="input-1">요청자 아이디</label>
-              <input class="form-control" type="text" name="username" value="아이디" readonly>
+              <input class="form-control" type="text" id="username" name="username" value="아이디" readonly>
             </div>
             <div>
               <label for="input-1">요청자 이름</label>
-              <input class="form-control" type="text" name="name" value="이름" readonly>
+              <input class="form-control" type="text" id="name" name="name" value="이름" readonly>
+            </div>
+            <div>
+              <label for="input-1">제목</label>
+              <input class="form-control" type="text" id="title" name="title" value="제목" readonly>
             </div>
             <div>
               <label for="input-1">내용</label>
-              <textarea class="form-control" name="desc" cols="" rows="10" readonly>내용</textarea>
+              <textarea class="form-control" id="desc" name="desc" cols="" rows="10" readonly>내용</textarea>
             </div>
             <div>
               <label for="input-1">종류</label>
-              <input class="form-control" type="text" name="category" value="종류" readonly>
+              <select class="form-control" name="category" id="category" form="detail_modal_form">
+                <option value="휴가">휴가</option>
+                <option value="외근">외근</option>
+                <option value="기타">기타</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="input-1">시작일</label>
-              <input class="form-control" type="date" name="start_dt">
+              <input class="form-control" type="date" id="start_dt" name="start_dt" readonly>
             </div>
             <div class="form-group">
               <label for="input-1">종료일</label>
-              <input class="form-control" type="date" name="end_dt">
+              <input class="form-control" type="date" id="end_dt" name="end_dt" readonly>
             </div>
-            <div>
+            <div style="display: none;">
               <label for="input-1">상태</label>
-              <select class="form-control" name="accept_or_not" form="detail_modal_form">
+              <select class="form-control" id="accept_or_not" name="accept_or_not" form="detail_modal_form">
                 <option value="0" selected>대기</option>
                 <option value="1">수락</option>
                 <option value="2">거절</option>
@@ -214,7 +222,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-          <button id="detail_modal_save" type="button" class="btn btn-primary">저장</button>
+          <button id="detail_modal_update" type="button" class="btn btn-primary">수정</button>
         </div>
       </div>
     </div>
@@ -233,8 +241,8 @@
         $(this).css('cursor', 'pointer');
       })
 
-      $("#detail").on('click', function () {
-        var request_id = $("#request_id").val();
+      $(".detail").on('click', function () {
+        var request_id = $(this).parent().parent().children().eq(0).children().val();
 
         console.log(request_id);
 
@@ -246,15 +254,62 @@
           success: function (result) {
             console.dir(result);
             if(result.result == 1){
+              var detail = result.detail;
 
+              $('#title').val(detail.title);
+              $('#username').val(detail.username);
+              $('#name').val(detail.name);
+              $('#desc').text(detail.desc);
+              $("#category").val(detail.category).attr("selected", "selected");
+              $("#category option").not(":selected").attr("disabled", "disabled");
+              $('#start_dt').val(moment(detail.start_dt).format('YYYY-MM-DD'));
+              $('#end_dt').val(moment(detail.end_dt).format('YYYY-MM-DD'));
             }else{
-              
+              console.log('detail modal call error');
             }
           },
           error: function (xhr, status, error) {
             console.log(error);
           }
         })
+      })
+
+      $('#detail_modal_update').on('click', function () {
+
+        if($(this).text('수정')){
+          $('#title').removeAttr('readonly');
+          $('#desc').removeAttr('readonly');
+          $("#category option").not(":selected").removeAttr('disabled');
+          $('#start_dt').removeAttr('readonly');
+          $('#end_dt').removeAttr('readonly');
+
+          $(this).text('완료')
+        }else{
+
+          var request_id = $('.detail').parent().parent().children().eq(0).children().val();
+
+          console.log(request_id);
+
+          $.ajax({ 
+            url: "/request/update/modal",
+            data: {request_id : request_id},
+            method: 'post',
+            dataType: 'json',
+            success: function (result) {
+              console.dir(result);
+              if(result.result == 1){
+                
+              }else{
+                console.log('detail modal call error');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log(error);
+            }
+          })
+
+        }
+        
       })
     })
   </script>
