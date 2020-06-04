@@ -210,14 +210,14 @@
               <label for="input-1">종료일</label>
               <input class="form-control" type="date" id="end_dt" name="end_dt" readonly>
             </div>
-            <div style="display: none;">
+            <!-- <div style="display: none;">
               <label for="input-1">상태</label>
               <select class="form-control" id="accept_or_not" name="accept_or_not" form="detail_modal_form">
                 <option value="0" selected>대기</option>
                 <option value="1">수락</option>
                 <option value="2">거절</option>
               </select>
-            </div>
+            </div> -->
           </form>
         </div>
         <div class="modal-footer">
@@ -233,13 +233,6 @@
   
   <script>
     $(document).ready(function () {
-      $(".request_row").on('click', function () {
-        window.location = $(this).data("href");
-      })
-
-      $(".request_row").hover(function () {
-        $(this).css('cursor', 'pointer');
-      })
 
       $(".detail").on('click', function () {
         var request_id = $(this).parent().parent().children().eq(0).children().val();
@@ -276,7 +269,7 @@
 
       $('#detail_modal_update').on('click', function () {
 
-        if($(this).text('수정')){
+        if($(this).text() == '수정'){
           $('#title').removeAttr('readonly');
           $('#desc').removeAttr('readonly');
           $("#category option").not(":selected").removeAttr('disabled');
@@ -290,15 +283,24 @@
 
           console.log(request_id);
 
+          var formData = $('#detail_modal_form').serializeArray();
+          formData.push({name : 'request_id', value : request_id})
+
           $.ajax({ 
             url: "/request/update/modal",
-            data: {request_id : request_id},
+            data: formData,
             method: 'post',
             dataType: 'json',
             success: function (result) {
               console.dir(result);
               if(result.result == 1){
-                
+                $('#title').attr('readonly', true);
+                $('#desc').attr('readonly', true);
+                $("#category option").not(":selected").removeAttr('disabled');
+                $('#start_dt').attr('readonly', true);
+                $('#end_dt').attr('readonly', true);
+
+                $('#detail_modal_update').text('수정')
               }else{
                 console.log('detail modal call error');
               }

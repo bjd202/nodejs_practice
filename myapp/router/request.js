@@ -72,6 +72,7 @@ router.post('/create', function (req, res) {
 })
 
 router.post('/detail/modal', function (req, res) {
+    console.log('detail modal post');
     var id = req.body.request_id;
 
     RequestSchema.findById(id, function (err, result) {
@@ -87,6 +88,36 @@ router.post('/detail/modal', function (req, res) {
             return;
         }
     })
+})
+
+router.post('/update/modal', function (req, res) {
+    console.log('update modal post');
+
+    var id = req.body.request_id;
+    var title = req.body.title;
+    var desc = req.body.desc;
+    var category = req.body.category;
+    var start_dt = req.body.start_dt;
+    var end_dt = req.body.end_dt;
+
+    RequestSchema.updateOne({_id : id}, {$set : {title : title, desc : desc, category : category, start_dt : start_dt, end_dt : end_dt, update_at : new Date(), accept_or_not : 0}}, function (err, result) {
+        if(err){
+            console.error(err);
+            res.json({result : 0});
+            return;
+        }
+
+        if(result){
+            console.dir(result);
+            res.json({result : 1});
+            return;
+        }else{
+            console.log('update 실패');
+            res.json({result : 0});
+            return;
+        }
+    })
+    
 })
 
 module.exports = router;
